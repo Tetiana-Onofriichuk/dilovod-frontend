@@ -5,10 +5,25 @@ import { getSoldiers } from "../services/soldiersApi";
 import type { Soldier } from "../types/soldier";
 import SoldiersTable from "../components/soldiers/SoldiersTable";
 import AddSoldierModal from "../components/soldiers/AddSoldierModal";
+import EditSoldierModal from "../components/soldiers/EditSoldierModal";
+import DeleteSoldierModal from "../components/soldiers/DeleteSoldierModal";
+import CreateDocumentModal from "../components/documents/CreateDocumentModal";
+import VacationReportModal from "../components/documents/VacationReportModal";
+import FamilyLeaveReportModal from "../components/documents/FamilyLeaveReportModal";
 
 const SoldiersPage = () => {
   const [soldiers, setSoldiers] = useState<Soldier[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingSoldier, setEditingSoldier] = useState<Soldier | null>(null);
+  const [deletingSoldier, setDeletingSoldier] = useState<Soldier | null>(null);
+
+  const [documentSoldier, setDocumentSoldier] = useState<Soldier | null>(null);
+
+  const [vacationReportSoldier, setVacationReportSoldier] =
+    useState<Soldier | null>(null);
+
+  const [familyLeaveReportSoldier, setFamilyLeaveReportSoldier] =
+    useState<Soldier | null>(null);
 
   useEffect(() => {
     const fetchSoldiers = async () => {
@@ -22,6 +37,7 @@ const SoldiersPage = () => {
 
     fetchSoldiers();
   }, []);
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -60,13 +76,79 @@ const SoldiersPage = () => {
         </div>
 
         <div className="mt-6">
-          <SoldiersTable soldiers={soldiers} />
+          <SoldiersTable
+            soldiers={soldiers}
+            onEdit={(soldier) => setEditingSoldier(soldier)}
+            onDelete={(soldier) => setDeletingSoldier(soldier)}
+            onCreateDocument={(soldier) => setDocumentSoldier(soldier)}
+          />
         </div>
       </div>
+
       <AddSoldierModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+        onSoldierCreated={(newSoldier) => {
+          setSoldiers((prev) => [...prev, newSoldier]);
+        }}
       />
+
+      {editingSoldier && (
+        <EditSoldierModal
+          soldier={editingSoldier}
+          onClose={() => setEditingSoldier(null)}
+          onSoldierUpdated={(updatedSoldier) => {
+            setSoldiers((prev) =>
+              prev.map((soldier) =>
+                soldier.id === updatedSoldier.id ? updatedSoldier : soldier,
+              ),
+            );
+
+            setEditingSoldier(null);
+          }}
+        />
+      )}
+
+      {deletingSoldier && (
+        <DeleteSoldierModal
+          soldier={deletingSoldier}
+          onClose={() => setDeletingSoldier(null)}
+          onSoldierDeleted={(id) => {
+            setSoldiers((prev) => prev.filter((soldier) => soldier.id !== id));
+
+            setDeletingSoldier(null);
+          }}
+        />
+      )}
+
+      {documentSoldier && (
+        <CreateDocumentModal
+          soldier={documentSoldier}
+          onClose={() => setDocumentSoldier(null)}
+          onVacationReport={() => {
+            setVacationReportSoldier(documentSoldier);
+            setDocumentSoldier(null);
+          }}
+          onFamilyLeaveReport={() => {
+            setFamilyLeaveReportSoldier(documentSoldier);
+            setDocumentSoldier(null);
+          }}
+        />
+      )}
+
+      {vacationReportSoldier && (
+        <VacationReportModal
+          soldier={vacationReportSoldier}
+          onClose={() => setVacationReportSoldier(null)}
+        />
+      )}
+
+      {familyLeaveReportSoldier && (
+        <FamilyLeaveReportModal
+          soldier={familyLeaveReportSoldier}
+          onClose={() => setFamilyLeaveReportSoldier(null)}
+        />
+      )}
     </div>
   );
 };

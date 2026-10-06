@@ -1,30 +1,32 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
+
 import Modal from "../common/Modal";
-import { createSoldier } from "../../services/soldiersApi";
+import { updateSoldier } from "../../services/soldiersApi";
 import type { Soldier } from "../../types/soldier";
 
-type AddSoldierModalProps = {
-  isOpen: boolean;
+type EditSoldierModalProps = {
+  soldier: Soldier;
   onClose: () => void;
-  onSoldierCreated: (soldier: Soldier) => void;
+  onSoldierUpdated: (soldier: Soldier) => void;
 };
 
-const AddSoldierModal = ({
-  isOpen,
+const EditSoldierModal = ({
+  soldier,
   onClose,
-  onSoldierCreated,
-}: AddSoldierModalProps) => {
+  onSoldierUpdated,
+}: EditSoldierModalProps) => {
   const [formData, setFormData] = useState({
-    lastName: "",
-    lastNameGenitive: "",
-    firstName: "",
-    patronymic: "",
-    rank: "",
-    position: "",
-    platoon: "",
-    squad: "",
-    phone: "",
+    lastName: soldier.lastName,
+    lastNameGenitive: soldier.lastNameGenitive ?? "",
+    firstName: soldier.firstName,
+    patronymic: soldier.patronymic,
+    phone: soldier.phone,
+    rank: soldier.rank,
+    position: soldier.position,
+    platoon: soldier.platoon,
+    squad: soldier.squad,
   });
+
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,54 +46,53 @@ const AddSoldierModal = ({
       setIsSaving(true);
       setError("");
 
-      const newSoldier = await createSoldier(formData);
+      const updatedSoldier = await updateSoldier(soldier.id, formData);
 
-      onSoldierCreated(newSoldier);
-
-      setFormData({
-        lastName: "",
-        lastNameGenitive: "",
-        firstName: "",
-        patronymic: "",
-        rank: "",
-        position: "",
-        platoon: "",
-        squad: "",
-        phone: "",
-      });
-
+      onSoldierUpdated(updatedSoldier);
       onClose();
     } catch (error) {
-      console.error("Помилка при створенні військовослужбовця:", error);
+      console.error("Помилка при редагуванні військовослужбовця:", error);
 
       setError(
-        "Не вдалося додати військовослужбовця. Перевірте введені дані та спробуйте ще раз.",
+        "Не вдалося зберегти зміни. Перевірте введені дані та спробуйте ще раз.",
       );
     } finally {
       setIsSaving(false);
     }
   };
+
+  const inputClassName =
+    "w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500";
+
+  const labelClassName = "mb-1.5 block text-sm font-medium text-zinc-700";
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Додати військовослужбовця">
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title="Редагувати військовослужбовця"
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
+          <label htmlFor="lastName" className={labelClassName}>
             Прізвище
           </label>
+
           <input
+            id="lastName"
             type="text"
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
+            placeholder="Наприклад: Петренко"
+            required
             autoFocus
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
+            className={inputClassName}
           />
         </div>
+
         <div>
-          <label
-            htmlFor="lastNameGenitive"
-            className="mb-1.5 block text-sm font-medium text-zinc-700"
-          >
+          <label htmlFor="lastNameGenitive" className={labelClassName}>
             Прізвище у родовому відмінку
           </label>
 
@@ -103,109 +104,138 @@ const AddSoldierModal = ({
             onChange={handleChange}
             placeholder="Наприклад: Петренка"
             required
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
+            className={inputClassName}
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
-            Імʼя
+          <label htmlFor="firstName" className={labelClassName}>
+            Ім&apos;я
           </label>
+
           <input
+            id="firstName"
             type="text"
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
+            placeholder="Наприклад: Іван"
+            required
+            className={inputClassName}
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
+          <label htmlFor="patronymic" className={labelClassName}>
             По батькові
           </label>
+
           <input
+            id="patronymic"
             type="text"
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             name="patronymic"
             value={formData.patronymic}
             onChange={handleChange}
+            placeholder="Наприклад: Іванович"
+            required
+            className={inputClassName}
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
+          <label htmlFor="phone" className={labelClassName}>
             Номер телефону
           </label>
+
           <input
+            id="phone"
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            placeholder="Наприклад: 0671234567"
             required
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
-          />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
-            Звання
-          </label>
-          <input
-            type="text"
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
-            name="rank"
-            value={formData.rank}
-            onChange={handleChange}
+            className={inputClassName}
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700">
+          <label htmlFor="rank" className={labelClassName}>
+            Військове звання
+          </label>
+
+          <input
+            id="rank"
+            type="text"
+            name="rank"
+            value={formData.rank}
+            onChange={handleChange}
+            placeholder="Наприклад: солдат"
+            required
+            className={inputClassName}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="position" className={labelClassName}>
             Посада
           </label>
+
           <input
+            id="position"
             type="text"
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             name="position"
             value={formData.position}
             onChange={handleChange}
+            placeholder="Наприклад: водій-машиніст екскаватора"
+            required
+            className={inputClassName}
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700">
+            <label htmlFor="platoon" className={labelClassName}>
               Взвод
             </label>
+
             <input
+              id="platoon"
               type="text"
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
               name="platoon"
               value={formData.platoon}
               onChange={handleChange}
+              placeholder="Взвод"
+              required
+              className={inputClassName}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700">
+            <label htmlFor="squad" className={labelClassName}>
               Відділення
             </label>
+
             <input
+              id="squad"
               type="text"
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
               name="squad"
               value={formData.squad}
               onChange={handleChange}
+              placeholder="Відділення"
+              required
+              className={inputClassName}
             />
           </div>
         </div>
+
         {error && (
           <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
             {error}
           </div>
         )}
 
-        <div className="flex justify-end gap-3 pt-4">
+        <div className="flex justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={onClose}
@@ -220,7 +250,7 @@ const AddSoldierModal = ({
             disabled={isSaving}
             className="cursor-pointer rounded-lg bg-[#1c2530] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#273342] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isSaving ? "Додавання..." : "Додати"}
+            {isSaving ? "Збереження..." : "Зберегти зміни"}
           </button>
         </div>
       </form>
@@ -228,4 +258,4 @@ const AddSoldierModal = ({
   );
 };
 
-export default AddSoldierModal;
+export default EditSoldierModal;

@@ -9,10 +9,49 @@ type SoldiersResponse = {
   totalPages: number;
 };
 
+export type CreateSoldierData = {
+  lastName: string;
+  lastNameGenitive: string;
+  firstName: string;
+  patronymic: string;
+  rank: string;
+  position: string;
+  platoon: string;
+  squad: string;
+  phone: string;
+};
+
 export const getSoldiers = async (): Promise<SoldiersResponse> => {
   const response = await axios.get<SoldiersResponse>(
     "http://localhost:3000/soldiers",
   );
 
   return response.data;
+};
+
+export const createSoldier = async (
+  soldierData: CreateSoldierData,
+): Promise<Soldier> => {
+  const response = await axios.post<Soldier>(
+    "http://localhost:3000/soldiers",
+    soldierData,
+  );
+
+  return response.data;
+};
+
+export const updateSoldier = async (
+  id: number,
+  soldierData: CreateSoldierData,
+): Promise<Soldier> => {
+  const response = await axios.patch<Soldier>(
+    `http://localhost:3000/soldiers/${id}`,
+    soldierData,
+  );
+
+  return response.data;
+};
+
+export const deleteSoldier = async (id: number): Promise<void> => {
+  await axios.delete(`http://localhost:3000/soldiers/${id}`);
 };

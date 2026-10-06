@@ -40,7 +40,7 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl"
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-xl"
       >
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-zinc-900">{title}</h2>
