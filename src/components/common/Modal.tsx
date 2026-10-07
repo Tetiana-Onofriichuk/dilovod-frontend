@@ -25,10 +25,10 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-
       document.body.style.overflow = previousOverflow;
     };
   }, [isOpen, onClose]);
+
   if (!isOpen) {
     return null;
   }
@@ -40,22 +40,24 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-xl"
+        className="w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-xl"
       >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-zinc-900">{title}</h2>
+        <div className="max-h-[90vh] overflow-y-auto p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-zinc-900">{title}</h2>
 
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Закрити"
-            className="cursor-pointer text-zinc-400 transition hover:text-zinc-900"
-          >
-            <X size={24} />
-          </button>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Закрити"
+              className="cursor-pointer text-zinc-400 transition hover:text-zinc-900"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {children}
         </div>
-
-        {children}
       </div>
     </div>
   );

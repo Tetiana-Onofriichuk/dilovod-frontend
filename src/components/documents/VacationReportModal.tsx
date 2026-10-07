@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import Modal from "../common/Modal";
 import type { Soldier } from "../../types/soldier";
-import { generateVacationReport } from "../../documents/vacationReport";
-import { getRequisites } from "../../services/requisitesApi";
+import { generateVacationReport } from "../../services/documentsApi";
+import DatePicker from "../common/DatePicker";
 
 type VacationReportModalProps = {
   soldier: Soldier;
@@ -19,8 +19,7 @@ const VacationReportModal = ({
     days: "",
     travelDays: "2",
     startDate: "",
-    location: "",
-    address: "",
+    address: soldier.address ?? "",
     transport: "залізничним транспортом",
     reportDate: today,
   });
@@ -67,20 +66,29 @@ const VacationReportModal = ({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const requisites = await getRequisites();
-
-    await generateVacationReport({
-      soldier,
-      requisites,
+    const file = await generateVacationReport({
+      soldierId: soldier.id,
       days: formData.days,
       travelDays: formData.travelDays,
       startDate: formData.startDate,
-      endDate,
-      location: formData.location,
       address: formData.address,
       transport: formData.transport,
       reportDate: formData.reportDate,
     });
+
+    const url = URL.createObjectURL(file);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `Рапорт_${soldier.lastName}_${formData.reportDate}.docx`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    onClose();
+
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -164,22 +172,22 @@ const VacationReportModal = ({
         </div>
 
         <div>
-          <label
-            htmlFor="startDate"
-            className="mb-1.5 block text-sm font-medium text-zinc-700"
-          >
-            Дата початку відпустки
-          </label>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-zinc-700">
+              Дата початку відпустки
+            </label>
 
-          <input
-            id="startDate"
-            type="date"
-            name="startDate"
-            value={formData.startDate}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
-          />
+            <DatePicker
+              value={formData.startDate}
+              onChange={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  startDate: value,
+                }))
+              }
+              required
+            />
+          </div>
         </div>
 
         <div>
@@ -205,26 +213,6 @@ const VacationReportModal = ({
         </div>
         <div>
           <label
-            htmlFor="location"
-            className="mb-1.5 block text-sm font-medium text-zinc-700"
-          >
-            Місто проведення відпустки
-          </label>
-
-          <input
-            id="location"
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            placeholder="Наприклад: м. Вінниця"
-            required
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
-          />
-        </div>
-
-        <div>
-          <label
             htmlFor="address"
             className="mb-1.5 block text-sm font-medium text-zinc-700"
           >
@@ -237,10 +225,14 @@ const VacationReportModal = ({
             name="address"
             value={formData.address}
             onChange={handleChange}
-            placeholder="Вулиця, будинок, населений пункт, область"
             required
             className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
           />
+
+          <p className="mt-1.5 text-xs text-zinc-500">
+            Заповнено з картки військовослужбовця. За потреби адресу можна
+            змінити для цього рапорту.
+          </p>
         </div>
 
         <div>

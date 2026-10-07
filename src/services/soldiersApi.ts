@@ -19,6 +19,7 @@ export type CreateSoldierData = {
   platoon: string;
   squad: string;
   phone: string;
+  address: string;
 };
 
 export const getSoldiers = async (): Promise<SoldiersResponse> => {
@@ -29,6 +30,13 @@ export const getSoldiers = async (): Promise<SoldiersResponse> => {
   return response.data;
 };
 
+export const getSoldierById = async (id: number): Promise<Soldier> => {
+  const response = await axios.get<Soldier>(
+    `http://localhost:3000/soldiers/${id}`,
+  );
+
+  return response.data;
+};
 export const createSoldier = async (
   soldierData: CreateSoldierData,
 ): Promise<Soldier> => {

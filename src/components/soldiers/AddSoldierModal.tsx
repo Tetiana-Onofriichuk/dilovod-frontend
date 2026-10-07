@@ -24,6 +24,7 @@ const AddSoldierModal = ({
     platoon: "",
     squad: "",
     phone: "",
+    address: "",
   });
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
@@ -58,6 +59,7 @@ const AddSoldierModal = ({
         platoon: "",
         squad: "",
         phone: "",
+        address: "",
       });
 
       onClose();
@@ -142,6 +144,21 @@ const AddSoldierModal = ({
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            required
+            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-zinc-700">
+            Адреса проживання
+          </label>
+
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Область, район, населений пункт, вулиця, будинок"
             required
             className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
           />

@@ -21,6 +21,7 @@ const EditSoldierModal = ({
     firstName: soldier.firstName,
     patronymic: soldier.patronymic,
     phone: soldier.phone,
+    address: soldier.address ?? "",
     rank: soldier.rank,
     position: soldier.position,
     platoon: soldier.platoon,
@@ -154,6 +155,23 @@ const EditSoldierModal = ({
             value={formData.phone}
             onChange={handleChange}
             placeholder="Наприклад: 0671234567"
+            required
+            className={inputClassName}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="address" className={labelClassName}>
+            Адреса проживання
+          </label>
+
+          <input
+            id="address"
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Область, район, населений пункт, вулиця, будинок"
             required
             className={inputClassName}
           />

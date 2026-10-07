@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import Modal from "../common/Modal";
 import type { Soldier } from "../../types/soldier";
-import { generateFamilyLeaveReport } from "../../documents/familyLeaveReport";
-import { getRequisites } from "../../services/requisitesApi";
+import { generateFamilyLeaveReport } from "../../services/documentsApi";
+import DatePicker from "../common/DatePicker";
 
 type FamilyLeaveReportModalProps = {
   soldier: Soldier;
@@ -19,7 +19,7 @@ const FamilyLeaveReportModal = ({
     leaveReason: "",
     days: "",
     startDate: "",
-    address: "",
+    address: soldier.address ?? "",
     attachment: "",
     reportDate: today,
   });
@@ -36,11 +36,8 @@ const FamilyLeaveReportModal = ({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const requisites = await getRequisites();
-
-    await generateFamilyLeaveReport({
-      soldier,
-      requisites,
+    const file = await generateFamilyLeaveReport({
+      soldierId: soldier.id,
       leaveReason: formData.leaveReason,
       days: formData.days,
       startDate: formData.startDate,
@@ -48,8 +45,20 @@ const FamilyLeaveReportModal = ({
       attachment: formData.attachment,
       reportDate: formData.reportDate,
     });
-  };
 
+    const url = URL.createObjectURL(file);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Рапорт_сімейні_обставини_${soldier.lastName}_${formData.reportDate}.docx`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    onClose();
+
+    URL.revokeObjectURL(url);
+  };
   return (
     <Modal
       isOpen={true}
@@ -130,21 +139,19 @@ const FamilyLeaveReportModal = ({
         </div>
 
         <div>
-          <label
-            htmlFor="startDate"
-            className="mb-1.5 block text-sm font-medium text-zinc-700"
-          >
+          <label className="mb-1.5 block text-sm font-medium text-zinc-700">
             Дата початку відпустки
           </label>
 
-          <input
-            id="startDate"
-            type="date"
-            name="startDate"
+          <DatePicker
             value={formData.startDate}
-            onChange={handleChange}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                startDate: value,
+              }))
+            }
             required
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 outline-none transition focus:border-zinc-500"
           />
         </div>
 

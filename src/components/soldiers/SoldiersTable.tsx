@@ -2,6 +2,7 @@ import type { Soldier } from "../../types/soldier";
 import { FileText, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import TruncatedText from "../common/TruncatedText";
+import { Link } from "react-router-dom";
 
 type SoldiersTableProps = {
   soldiers: Soldier[];
@@ -60,8 +61,13 @@ const SoldiersTable = ({
         <tbody className="divide-y divide-zinc-200">
           {soldiers.map((soldier) => (
             <tr key={soldier.id} className="transition hover:bg-zinc-50">
-              <td className="px-4 py-4 font-medium text-zinc-900">
-                {soldier.lastName} {soldier.firstName} {soldier.patronymic}
+              <td className="px-4 py-4 font-medium">
+                <Link
+                  to={`/soldiers/${soldier.id}`}
+                  className="text-zinc-900 transition hover:text-[#1c2530] hover:underline"
+                >
+                  {soldier.lastName} {soldier.firstName} {soldier.patronymic}
+                </Link>
               </td>
               <td className="px-4 py-4 text-zinc-600">{soldier.phone}</td>
 
