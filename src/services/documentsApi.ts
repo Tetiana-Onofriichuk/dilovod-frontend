@@ -38,6 +38,18 @@ export type TrainingWithWeaponReportData = {
   includeDryRation: boolean;
 };
 
+export type TrainingWithoutWeaponReportData = {
+  soldierId: number;
+  startDate: string;
+  endDate: string;
+  destination: string;
+  soldierFullNameGenitive: string;
+  trainingPurpose: string;
+  basis: string;
+  reportDate: string;
+  includeDryRation: boolean;
+};
+
 export const generateVacationReport = async (
   data: VacationReportData,
 ): Promise<Blob> => {
@@ -105,6 +117,24 @@ export const generateTrainingWithWeaponReport = async (
 
   if (!response.ok) {
     throw new Error("Не вдалося створити рапорт на навчання зі зброєю");
+  }
+
+  return response.blob();
+};
+
+export const generateTrainingWithoutWeaponReport = async (
+  data: TrainingWithoutWeaponReportData,
+): Promise<Blob> => {
+  const response = await fetch(`${API_URL}/training-without-weapon-report`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Не вдалося створити рапорт на навчання без зброї");
   }
 
   return response.blob();

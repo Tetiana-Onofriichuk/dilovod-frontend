@@ -12,6 +12,7 @@ import VacationReportModal from "../components/documents/VacationReportModal";
 import FamilyLeaveReportModal from "../components/documents/FamilyLeaveReportModal";
 import BankDetailsReportModal from "../components/documents/BankDetailsReportModal";
 import TrainingWithWeaponReportModal from "../components/documents/TrainingWithWeaponReportModal";
+import TrainingWithoutWeaponReportModal from "../components/documents/TrainingWithoutWeaponReportModal";
 
 const SoldiersPage = () => {
   const [soldiers, setSoldiers] = useState<Soldier[]>([]);
@@ -32,6 +33,10 @@ const SoldiersPage = () => {
     useState<Soldier | null>(null);
   const [trainingWithWeaponReportSoldier, setTrainingWithWeaponReportSoldier] =
     useState<Soldier | null>(null);
+  const [
+    trainingWithoutWeaponReportSoldier,
+    setTrainingWithoutWeaponReportSoldier,
+  ] = useState<Soldier | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -159,6 +164,10 @@ const SoldiersPage = () => {
             setTrainingWithWeaponReportSoldier(documentSoldier);
             setDocumentSoldier(null);
           }}
+          onTrainingWithoutWeaponReport={() => {
+            setTrainingWithoutWeaponReportSoldier(documentSoldier);
+            setDocumentSoldier(null);
+          }}
         />
       )}
 
@@ -186,6 +195,13 @@ const SoldiersPage = () => {
         <TrainingWithWeaponReportModal
           soldier={trainingWithWeaponReportSoldier}
           onClose={() => setTrainingWithWeaponReportSoldier(null)}
+        />
+      )}
+
+      {trainingWithoutWeaponReportSoldier && (
+        <TrainingWithoutWeaponReportModal
+          soldier={trainingWithoutWeaponReportSoldier}
+          onClose={() => setTrainingWithoutWeaponReportSoldier(null)}
         />
       )}
     </div>
