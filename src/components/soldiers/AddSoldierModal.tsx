@@ -23,6 +23,7 @@ const AddSoldierModal = ({
     position: "",
     platoon: "",
     squad: "",
+    weapon: "",
     phone: "",
     address: "",
   });
@@ -58,6 +59,7 @@ const AddSoldierModal = ({
         position: "",
         platoon: "",
         squad: "",
+        weapon: "",
         phone: "",
         address: "",
       });
@@ -213,6 +215,20 @@ const AddSoldierModal = ({
               name="squad"
               value={formData.squad}
               onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-zinc-700">
+              Зброя
+            </label>
+
+            <input
+              type="text"
+              name="weapon"
+              value={formData.weapon}
+              onChange={handleChange}
+              placeholder="Наприклад: АК-74 №..."
+              className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             />
           </div>
         </div>

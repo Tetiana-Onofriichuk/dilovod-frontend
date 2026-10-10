@@ -35,34 +35,6 @@ const VacationReportModal = ({
     }));
   };
 
-  const calculateEndDate = () => {
-    if (!formData.startDate || !formData.days) {
-      return "";
-    }
-
-    const days = Number(formData.days);
-
-    if (days < 1) {
-      return "";
-    }
-
-    const date = new Date(`${formData.startDate}T00:00:00`);
-
-    date.setDate(date.getDate() + days - 1);
-
-    return date.toLocaleDateString("en-CA");
-  };
-
-  const formatDate = (date: string) => {
-    if (!date) {
-      return "";
-    }
-
-    return new Date(`${date}T00:00:00`).toLocaleDateString("uk-UA");
-  };
-
-  const endDate = calculateEndDate();
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -190,27 +162,6 @@ const VacationReportModal = ({
           </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="endDate"
-            className="mb-1.5 block text-sm font-medium text-zinc-700"
-          >
-            Дата закінчення відпустки
-          </label>
-
-          <input
-            id="endDate"
-            type="text"
-            value={formatDate(endDate)}
-            placeholder="Розрахується автоматично"
-            readOnly
-            className="w-full cursor-not-allowed rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-3 text-zinc-600 outline-none"
-          />
-
-          <p className="mt-1.5 text-xs text-zinc-500">
-            Розраховується автоматично за кількістю днів
-          </p>
-        </div>
         <div>
           <label
             htmlFor="address"

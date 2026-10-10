@@ -145,6 +145,8 @@ const SoldierDetailsPage = () => {
             <InfoRow label="Взвод" value={soldier.platoon} />
 
             <InfoRow label="Відділення" value={soldier.squad} />
+
+            <InfoRow label="Зброя" value={soldier.weapon} />
           </div>
         </section>
       </div>

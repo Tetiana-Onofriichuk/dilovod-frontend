@@ -8,6 +8,7 @@ export interface Soldier {
   position: string;
   platoon: string;
   squad: string;
+  weapon: string;
   phone: string;
   address: string;
   createdAt: string;

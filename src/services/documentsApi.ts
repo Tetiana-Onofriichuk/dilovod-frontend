@@ -19,6 +19,25 @@ export type FamilyLeaveReportData = {
   reportDate: string;
 };
 
+export type BankDetailsReportData = {
+  soldierId: number;
+  bankAccount: string;
+  bankName: string;
+  reportDate: string;
+};
+
+export type TrainingWithWeaponReportData = {
+  soldierId: number;
+  startDate: string;
+  endDate: string;
+  destination: string;
+  soldierFullNameGenitive: string;
+  trainingPurpose: string;
+  basis: string;
+  reportDate: string;
+  includeDryRation: boolean;
+};
+
 export const generateVacationReport = async (
   data: VacationReportData,
 ): Promise<Blob> => {
@@ -50,6 +69,42 @@ export const generateFamilyLeaveReport = async (
 
   if (!response.ok) {
     throw new Error("Не вдалося створити рапорт");
+  }
+
+  return response.blob();
+};
+
+export const generateBankDetailsReport = async (
+  data: BankDetailsReportData,
+): Promise<Blob> => {
+  const response = await fetch(`${API_URL}/bank-details-report`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Не вдалося створити рапорт");
+  }
+
+  return response.blob();
+};
+
+export const generateTrainingWithWeaponReport = async (
+  data: TrainingWithWeaponReportData,
+): Promise<Blob> => {
+  const response = await fetch(`${API_URL}/training-with-weapon-report`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Не вдалося створити рапорт на навчання зі зброєю");
   }
 
   return response.blob();

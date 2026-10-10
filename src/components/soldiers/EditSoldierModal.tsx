@@ -26,6 +26,7 @@ const EditSoldierModal = ({
     position: soldier.position,
     platoon: soldier.platoon,
     squad: soldier.squad,
+    weapon: soldier.weapon ?? "",
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -242,6 +243,21 @@ const EditSoldierModal = ({
               onChange={handleChange}
               placeholder="Відділення"
               required
+              className={inputClassName}
+            />
+          </div>
+          <div>
+            <label htmlFor="weapon" className={labelClassName}>
+              Зброя
+            </label>
+
+            <input
+              id="weapon"
+              type="text"
+              name="weapon"
+              value={formData.weapon}
+              onChange={handleChange}
+              placeholder="Наприклад: АК-74 №..."
               className={inputClassName}
             />
           </div>

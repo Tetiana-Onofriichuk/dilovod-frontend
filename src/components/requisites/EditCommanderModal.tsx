@@ -5,13 +5,16 @@ export type CommanderData = {
   position: string;
   rank: string;
   firstName: string;
+  patronymic?: string;
   lastName: string;
+  lastNameGenitive?: string;
 };
 
 type EditCommanderModalProps = {
   isOpen: boolean;
   title: string;
   initialData: CommanderData;
+  showCompanyExtraFields?: boolean;
   onClose: () => void;
   onSave: (data: CommanderData) => void;
 };
@@ -20,6 +23,7 @@ export default function EditCommanderModal({
   isOpen,
   title,
   initialData,
+  showCompanyExtraFields = false,
   onClose,
   onSave,
 }: EditCommanderModalProps) {
@@ -82,6 +86,23 @@ export default function EditCommanderModal({
           />
         </div>
 
+        {showCompanyExtraFields && (
+          <div>
+            <label className={labelClassName}>По батькові</label>
+            <input
+              type="text"
+              value={formData.patronymic ?? ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  patronymic: e.target.value,
+                })
+              }
+              className={inputClassName}
+            />
+          </div>
+        )}
+
         <div>
           <label className={labelClassName}>Прізвище</label>
           <input
@@ -96,6 +117,26 @@ export default function EditCommanderModal({
             className={inputClassName}
           />
         </div>
+
+        {showCompanyExtraFields && (
+          <div>
+            <label className={labelClassName}>
+              Прізвище у родовому відмінку
+            </label>
+            <input
+              type="text"
+              value={formData.lastNameGenitive ?? ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  lastNameGenitive: e.target.value,
+                })
+              }
+              placeholder="Наприклад: Шуваєва"
+              className={inputClassName}
+            />
+          </div>
+        )}
       </div>
 
       <div className="mt-7 flex justify-end gap-3">

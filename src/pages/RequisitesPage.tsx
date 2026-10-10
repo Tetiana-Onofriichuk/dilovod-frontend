@@ -7,7 +7,7 @@ import EditCommanderModal, {
   type CommanderData,
 } from "../components/requisites/EditCommanderModal";
 
-type CommanderType = "company" | "unit";
+type CommanderType = "company" | "unit" | "finance";
 
 export default function RequisitesPage() {
   const [requisites, setRequisites] = useState<Requisites | null>(null);
@@ -50,10 +50,20 @@ export default function RequisitesPage() {
             ? data.firstName
             : requisites.companyCommanderFirstName,
 
+        companyCommanderPatronymic:
+          editingCommander === "company"
+            ? (data.patronymic ?? "")
+            : requisites.companyCommanderPatronymic,
+
         companyCommanderLastName:
           editingCommander === "company"
             ? data.lastName
             : requisites.companyCommanderLastName,
+
+        companyCommanderLastNameGenitive:
+          editingCommander === "company"
+            ? (data.lastNameGenitive ?? "")
+            : requisites.companyCommanderLastNameGenitive,
 
         unitCommanderPosition:
           editingCommander === "unit"
@@ -74,6 +84,26 @@ export default function RequisitesPage() {
           editingCommander === "unit"
             ? data.lastName
             : requisites.unitCommanderLastName,
+
+        financeChiefPosition:
+          editingCommander === "finance"
+            ? data.position
+            : requisites.financeChiefPosition,
+
+        financeChiefRank:
+          editingCommander === "finance"
+            ? data.rank
+            : requisites.financeChiefRank,
+
+        financeChiefFirstName:
+          editingCommander === "finance"
+            ? data.firstName
+            : requisites.financeChiefFirstName,
+
+        financeChiefLastName:
+          editingCommander === "finance"
+            ? data.lastName
+            : requisites.financeChiefLastName,
       });
 
       setRequisites(updatedRequisites);
@@ -87,22 +117,37 @@ export default function RequisitesPage() {
     return <p className="text-zinc-500">Завантаження...</p>;
   }
 
-  const commanderData: CommanderData | null =
-    requisites && editingCommander
-      ? editingCommander === "company"
-        ? {
-            position: requisites.companyCommanderPosition,
-            rank: requisites.companyCommanderRank,
-            firstName: requisites.companyCommanderFirstName,
-            lastName: requisites.companyCommanderLastName,
-          }
-        : {
-            position: requisites.unitCommanderPosition,
-            rank: requisites.unitCommanderRank,
-            firstName: requisites.unitCommanderFirstName,
-            lastName: requisites.unitCommanderLastName,
-          }
-      : null;
+  let commanderData: CommanderData | null = null;
+
+  if (requisites && editingCommander) {
+    if (editingCommander === "company") {
+      commanderData = {
+        position: requisites.companyCommanderPosition,
+        rank: requisites.companyCommanderRank,
+        firstName: requisites.companyCommanderFirstName,
+        patronymic: requisites.companyCommanderPatronymic,
+        lastName: requisites.companyCommanderLastName,
+        lastNameGenitive: requisites.companyCommanderLastNameGenitive,
+      };
+    }
+    if (editingCommander === "unit") {
+      commanderData = {
+        position: requisites.unitCommanderPosition,
+        rank: requisites.unitCommanderRank,
+        firstName: requisites.unitCommanderFirstName,
+        lastName: requisites.unitCommanderLastName,
+      };
+    }
+
+    if (editingCommander === "finance") {
+      commanderData = {
+        position: requisites.financeChiefPosition,
+        rank: requisites.financeChiefRank,
+        firstName: requisites.financeChiefFirstName,
+        lastName: requisites.financeChiefLastName,
+      };
+    }
+  }
 
   return (
     <div>
@@ -134,6 +179,15 @@ export default function RequisitesPage() {
           lastName={requisites?.unitCommanderLastName}
           onEdit={() => setEditingCommander("unit")}
         />
+
+        <CommanderCard
+          title="Начальник фінансово-економічної служби"
+          position={requisites?.financeChiefPosition}
+          rank={requisites?.financeChiefRank}
+          firstName={requisites?.financeChiefFirstName}
+          lastName={requisites?.financeChiefLastName}
+          onEdit={() => setEditingCommander("finance")}
+        />
       </div>
 
       {editingCommander && commanderData && (
@@ -141,9 +195,12 @@ export default function RequisitesPage() {
           title={
             editingCommander === "company"
               ? "Змінити командира роти"
-              : "Змінити командира військової частини"
+              : editingCommander === "unit"
+                ? "Змінити командира військової частини"
+                : "Змінити начальника фінансово-економічної служби"
           }
           initialData={commanderData}
+          showCompanyExtraFields={editingCommander === "company"}
           isOpen={true}
           onClose={() => setEditingCommander(null)}
           onSave={handleSaveCommander}

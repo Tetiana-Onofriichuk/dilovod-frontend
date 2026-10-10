@@ -22,9 +22,20 @@ export type CreateSoldierData = {
   address: string;
 };
 
-export const getSoldiers = async (): Promise<SoldiersResponse> => {
+export const getSoldiers = async (
+  search = "",
+  page = 1,
+  limit = 20,
+): Promise<SoldiersResponse> => {
   const response = await axios.get<SoldiersResponse>(
     "http://localhost:3000/soldiers",
+    {
+      params: {
+        search,
+        page,
+        limit,
+      },
+    },
   );
 
   return response.data;
