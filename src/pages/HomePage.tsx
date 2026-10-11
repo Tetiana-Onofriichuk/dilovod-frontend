@@ -118,6 +118,7 @@ const HomePage = () => {
           value={7}
           linkText="Перейти до календаря"
           icon={CalendarDays}
+          to="/calendar"
         />
       </div>
 

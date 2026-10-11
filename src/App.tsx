@@ -9,6 +9,7 @@ import SoldiersPage from "./pages/SoldiersPage";
 import RequisitesPage from "./pages/RequisitesPage";
 import SoldierDetailsPage from "./pages/SoldierDetailsPage";
 import DocumentsPage from "./pages/DocumentsPage";
+import CalendarPage from "./pages/CalendarPage";
 
 function App() {
   const location = useLocation();
@@ -58,6 +59,15 @@ function App() {
             element={
               <PageTransition>
                 <DocumentsPage />
+              </PageTransition>
+            }
+          />
+
+          <Route
+            path="/calendar"
+            element={
+              <PageTransition>
+                <CalendarPage />
               </PageTransition>
             }
           />

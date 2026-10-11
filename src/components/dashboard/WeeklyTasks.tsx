@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 
 const days = [
@@ -39,6 +40,7 @@ const days = [
 ];
 
 const WeeklyTasks = () => {
+  const navigate = useNavigate();
   return (
     <section className="mt-4 rounded-xl border border-zinc-200 bg-white shadow-sm">
       <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
@@ -55,6 +57,7 @@ const WeeklyTasks = () => {
         <button
           type="button"
           className="flex cursor-pointer items-center gap-1.5 text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
+          onClick={() => navigate("/calendar")}
         >
           <CalendarDays size={16} />
           Календар на місяць →

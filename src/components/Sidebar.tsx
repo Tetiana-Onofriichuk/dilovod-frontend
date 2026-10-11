@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FileText, Home, Users, ShieldCheck } from "lucide-react";
+import { CalendarDays, FileText, Home, Users, ShieldCheck } from "lucide-react";
 import logo from "../assets/logo.png";
 
 const Sidebar = () => {
@@ -49,6 +49,13 @@ const Sidebar = () => {
             <NavLink to="/command-staff" className={linkStyles}>
               <ShieldCheck size={20} />
               <span>Командний склад</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/calendar" className={linkStyles}>
+              <CalendarDays size={20} />
+              <span>Календар</span>
             </NavLink>
           </li>
         </ul>

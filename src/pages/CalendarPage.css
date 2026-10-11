@@ -1,0 +1,14 @@
+.fc {
+  --fc-button-bg-color: var(--color-zinc-800);
+  --fc-button-border-color: var(--color-zinc-800);
+
+  --fc-button-hover-bg-color: var(--color-zinc-700);
+  --fc-button-hover-border-color: var(--color-zinc-700);
+
+  --fc-button-active-bg-color: var(--color-zinc-900);
+  --fc-button-active-border-color: var(--color-zinc-900);
+}
+
+.fc .fc-button-primary:focus {
+  box-shadow: none;
+}
