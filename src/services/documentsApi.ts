@@ -27,11 +27,15 @@ export type BankDetailsReportData = {
 };
 
 export type TrainingWithWeaponReportData = {
-  soldierId: number;
+  soldierIds: number[];
   startDate: string;
   endDate: string;
   destination: string;
   soldierFullNameGenitive: string;
+  additionalSoldiersGenitive: {
+    soldierId: number;
+    fullNameGenitive: string;
+  }[];
   trainingPurpose: string;
   basis: string;
   reportDate: string;
@@ -39,11 +43,15 @@ export type TrainingWithWeaponReportData = {
 };
 
 export type TrainingWithoutWeaponReportData = {
-  soldierId: number;
+  soldierIds: number[];
   startDate: string;
   endDate: string;
   destination: string;
   soldierFullNameGenitive: string;
+  additionalSoldiersGenitive: {
+    soldierId: number;
+    fullNameGenitive: string;
+  }[];
   trainingPurpose: string;
   basis: string;
   reportDate: string;

@@ -21,6 +21,7 @@ const AddSoldierModal = ({
     patronymic: "",
     rank: "",
     position: "",
+    positionGenitive: "",
     platoon: "",
     squad: "",
     weapon: "",
@@ -57,6 +58,7 @@ const AddSoldierModal = ({
         patronymic: "",
         rank: "",
         position: "",
+        positionGenitive: "",
         platoon: "",
         squad: "",
         weapon: "",
@@ -188,6 +190,26 @@ const AddSoldierModal = ({
             name="position"
             value={formData.position}
             onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="positionGenitive"
+            className="mb-1 block text-sm font-medium text-zinc-700"
+          >
+            Посада у родовому відмінку
+          </label>
+
+          <input
+            id="positionGenitive"
+            type="text"
+            name="positionGenitive"
+            value={formData.positionGenitive}
+            onChange={handleChange}
+            placeholder="Наприклад: водія-інженера"
+            required
+            className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
           />
         </div>
 

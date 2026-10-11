@@ -24,6 +24,7 @@ const EditSoldierModal = ({
     address: soldier.address ?? "",
     rank: soldier.rank,
     position: soldier.position,
+    positionGenitive: soldier.positionGenitive ?? "",
     platoon: soldier.platoon,
     squad: soldier.squad,
     weapon: soldier.weapon ?? "",
@@ -207,6 +208,22 @@ const EditSoldierModal = ({
             value={formData.position}
             onChange={handleChange}
             placeholder="Наприклад: водій-машиніст екскаватора"
+            required
+            className={inputClassName}
+          />
+        </div>
+        <div>
+          <label htmlFor="positionGenitive" className={labelClassName}>
+            Посада у родовому відмінку
+          </label>
+
+          <input
+            id="positionGenitive"
+            type="text"
+            name="positionGenitive"
+            value={formData.positionGenitive}
+            onChange={handleChange}
+            placeholder="Наприклад: водія-машиніста екскаватора"
             required
             className={inputClassName}
           />

@@ -16,6 +16,7 @@ export type CreateSoldierData = {
   patronymic: string;
   rank: string;
   position: string;
+  positionGenitive: string;
   platoon: string;
   squad: string;
   phone: string;

@@ -142,6 +142,11 @@ const SoldierDetailsPage = () => {
 
             <InfoRow label="Посада" value={soldier.position} />
 
+            <InfoRow
+              label="Посада у родовому відмінку"
+              value={soldier.positionGenitive}
+            />
+
             <InfoRow label="Взвод" value={soldier.platoon} />
 
             <InfoRow label="Відділення" value={soldier.squad} />

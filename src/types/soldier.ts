@@ -6,6 +6,7 @@ export interface Soldier {
   patronymic: string;
   rank: string;
   position: string;
+  positionGenitive: string;
   platoon: string;
   squad: string;
   weapon: string;
