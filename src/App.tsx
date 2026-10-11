@@ -1,19 +1,68 @@
-import { Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "motion/react";
+import { Route, Routes, useLocation } from "react-router-dom";
+
 import MainLayout from "./components/MainLayout";
+import PageTransition from "./components/common/PageTransition";
+
 import HomePage from "./pages/HomePage";
 import SoldiersPage from "./pages/SoldiersPage";
 import RequisitesPage from "./pages/RequisitesPage";
 import SoldierDetailsPage from "./pages/SoldierDetailsPage";
+import DocumentsPage from "./pages/DocumentsPage";
 
 function App() {
+  const location = useLocation();
+
   return (
     <MainLayout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/soldiers" element={<SoldiersPage />} />
-        <Route path="/requisites" element={<RequisitesPage />} />
-        <Route path="/soldiers/:id" element={<SoldierDetailsPage />} />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <PageTransition>
+                <HomePage />
+              </PageTransition>
+            }
+          />
+
+          <Route
+            path="/soldiers"
+            element={
+              <PageTransition>
+                <SoldiersPage />
+              </PageTransition>
+            }
+          />
+
+          <Route
+            path="/soldiers/:id"
+            element={
+              <PageTransition>
+                <SoldierDetailsPage />
+              </PageTransition>
+            }
+          />
+
+          <Route
+            path="/command-staff"
+            element={
+              <PageTransition>
+                <RequisitesPage />
+              </PageTransition>
+            }
+          />
+
+          <Route
+            path="/documents"
+            element={
+              <PageTransition>
+                <DocumentsPage />
+              </PageTransition>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
     </MainLayout>
   );
 }

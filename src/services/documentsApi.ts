@@ -1,5 +1,7 @@
-const API_URL = "http://localhost:3000/documents";
+import axios from "axios";
+import type { Document } from "../types/document";
 
+const API_URL = "http://localhost:3000/documents";
 export type VacationReportData = {
   soldierId: number;
   days: string;
@@ -61,89 +63,88 @@ export type TrainingWithoutWeaponReportData = {
 export const generateVacationReport = async (
   data: VacationReportData,
 ): Promise<Blob> => {
-  const response = await fetch(`${API_URL}/vacation-report`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+  const response = await axios.post(`${API_URL}/vacation-report`, data, {
+    responseType: "blob",
   });
 
-  if (!response.ok) {
-    throw new Error("Не вдалося створити рапорт");
-  }
-
-  return response.blob();
+  return response.data;
 };
 
 export const generateFamilyLeaveReport = async (
   data: FamilyLeaveReportData,
 ): Promise<Blob> => {
-  const response = await fetch(`${API_URL}/family-leave-report`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+  const response = await axios.post(`${API_URL}/family-leave-report`, data, {
+    responseType: "blob",
   });
 
-  if (!response.ok) {
-    throw new Error("Не вдалося створити рапорт");
-  }
-
-  return response.blob();
+  return response.data;
 };
 
 export const generateBankDetailsReport = async (
   data: BankDetailsReportData,
 ): Promise<Blob> => {
-  const response = await fetch(`${API_URL}/bank-details-report`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+  const response = await axios.post(`${API_URL}/bank-details-report`, data, {
+    responseType: "blob",
   });
 
-  if (!response.ok) {
-    throw new Error("Не вдалося створити рапорт");
-  }
-
-  return response.blob();
+  return response.data;
 };
 
 export const generateTrainingWithWeaponReport = async (
   data: TrainingWithWeaponReportData,
 ): Promise<Blob> => {
-  const response = await fetch(`${API_URL}/training-with-weapon-report`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await axios.post(
+    `${API_URL}/training-with-weapon-report`,
+    data,
+    {
+      responseType: "blob",
     },
-    body: JSON.stringify(data),
-  });
+  );
 
-  if (!response.ok) {
-    throw new Error("Не вдалося створити рапорт на навчання зі зброєю");
-  }
-
-  return response.blob();
+  return response.data;
 };
 
 export const generateTrainingWithoutWeaponReport = async (
   data: TrainingWithoutWeaponReportData,
 ): Promise<Blob> => {
-  const response = await fetch(`${API_URL}/training-without-weapon-report`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await axios.post(
+    `${API_URL}/training-without-weapon-report`,
+    data,
+    {
+      responseType: "blob",
     },
-    body: JSON.stringify(data),
+  );
+
+  return response.data;
+};
+
+export const getDocuments = async (): Promise<Document[]> => {
+  const response = await axios.get<Document[]>(API_URL);
+
+  return response.data;
+};
+
+export const downloadDocument = async (
+  id: number,
+  fileName: string,
+): Promise<void> => {
+  const response = await axios.get(`${API_URL}/${id}/download`, {
+    responseType: "blob",
   });
 
-  if (!response.ok) {
-    throw new Error("Не вдалося створити рапорт на навчання без зброї");
-  }
+  const url = window.URL.createObjectURL(response.data);
+  const link = window.document.createElement("a");
 
-  return response.blob();
+  link.href = url;
+  link.download = fileName;
+
+  window.document.body.appendChild(link);
+  link.click();
+
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
+export const deleteDocument = async (id: number): Promise<void> => {
+  await axios.delete(`${API_URL}/${id}`);
 };

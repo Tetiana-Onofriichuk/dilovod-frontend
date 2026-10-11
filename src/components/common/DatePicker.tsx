@@ -5,8 +5,8 @@ type DatePickerProps = {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  align?: "left" | "right";
 };
-
 const months = [
   "Січень",
   "Лютий",
@@ -24,7 +24,12 @@ const months = [
 
 const weekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
 
-const DatePicker = ({ value, onChange, required = false }: DatePickerProps) => {
+const DatePicker = ({
+  value,
+  onChange,
+  required = false,
+  align = "left",
+}: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [inputValue, setInputValue] = useState(() => {
@@ -198,7 +203,9 @@ const DatePicker = ({ value, onChange, required = false }: DatePickerProps) => {
       {isOpen && (
         <div
           ref={calendarRef}
-          className="absolute right-0 top-full z-50 mt-2 w-[300px] rounded-xl border border-zinc-200 bg-white p-4 shadow-xl"
+          className={`absolute top-full z-50 mt-2 w-[300px] rounded-xl border border-zinc-200 bg-white p-4 shadow-xl ${
+            align === "right" ? "right-0" : "left-0"
+          }`}
         >
           <div className="mb-4 flex items-center justify-between">
             <button

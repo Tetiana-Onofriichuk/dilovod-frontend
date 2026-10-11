@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FileText, Home, Users, Landmark } from "lucide-react";
+import { FileText, Home, Users, ShieldCheck } from "lucide-react";
 import logo from "../assets/logo.png";
 
 const Sidebar = () => {
@@ -21,6 +21,7 @@ const Sidebar = () => {
           <p className="text-m text-zinc-400">система обліку</p>
         </div>
       </div>
+
       <nav>
         <ul className="space-y-2">
           <li>
@@ -38,15 +39,16 @@ const Sidebar = () => {
           </li>
 
           <li>
-            <div className="flex items-center gap-3 rounded-lg px-4 py-3 text-zinc-100">
+            <NavLink to="/documents" className={linkStyles}>
               <FileText size={20} />
               <span>Документи</span>
-            </div>
+            </NavLink>
           </li>
+
           <li>
-            <NavLink to="/requisites" className={linkStyles}>
-              <Landmark size={20} />
-              <span>Реквізити</span>
+            <NavLink to="/command-staff" className={linkStyles}>
+              <ShieldCheck size={20} />
+              <span>Командний склад</span>
             </NavLink>
           </li>
         </ul>

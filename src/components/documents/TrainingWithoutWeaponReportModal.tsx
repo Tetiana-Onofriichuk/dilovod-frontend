@@ -378,6 +378,7 @@ const TrainingWithoutWeaponReportModal = ({
                 }))
               }
               required
+              align="right"
             />
           </div>
         </div>
