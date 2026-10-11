@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Download, FileText, Trash2 } from "lucide-react";
+import { Download, FileText, Search, Trash2 } from "lucide-react";
 
 import { downloadDocument, getDocuments } from "../services/documentsApi";
 import type { Document } from "../types/document";
@@ -8,6 +8,7 @@ import DeleteDocumentModal from "../components/documents/DeleteDocumentModal";
 const DocumentsPage = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [deletingDocument, setDeletingDocument] = useState<Document | null>(
     null,
   );
@@ -27,6 +28,10 @@ const DocumentsPage = () => {
     loadDocuments();
   }, []);
 
+  const filteredDocuments = documents.filter((document) =>
+    document.title.toLowerCase().includes(search.trim().toLowerCase()),
+  );
+
   return (
     <div>
       <div className="mb-6">
@@ -35,15 +40,30 @@ const DocumentsPage = () => {
       </div>
 
       <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
-        <div className="border-b border-zinc-200 px-5 py-4">
+        <div className="flex items-center justify-between gap-4 border-b border-zinc-200 px-5 py-4">
           <h3 className="font-semibold text-zinc-900">Всі документи</h3>
+
+          <div className="relative w-full max-w-sm">
+            <Search
+              size={18}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            />
+
+            <input
+              type="text"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Пошук за назвою документа..."
+              className="w-full rounded-lg border border-zinc-300 py-2 pl-10 pr-4 text-sm outline-none transition focus:border-zinc-500"
+            />
+          </div>
         </div>
 
         {isLoading ? (
           <div className="px-5 py-8 text-center text-sm text-zinc-500">
             Завантаження...
           </div>
-        ) : documents.length === 0 ? (
+        ) : filteredDocuments.length === 0 ? (
           <div className="flex flex-col items-center px-5 py-10 text-zinc-500">
             <FileText size={32} />
             <p className="mt-2 text-sm">Документів поки немає</p>
@@ -58,7 +78,7 @@ const DocumentsPage = () => {
             </div>
 
             <div className="divide-y divide-zinc-100">
-              {documents.map((document) => (
+              {filteredDocuments.map((document) => (
                 <div
                   key={document.id}
                   className="grid grid-cols-[minmax(280px,1.4fr)_minmax(280px,1.4fr)_160px_100px] items-center gap-6 px-5 py-4"
