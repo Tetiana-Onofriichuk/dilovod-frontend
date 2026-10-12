@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 
 import type { Task } from "../../types/task";
+
 type WeeklyTasksProps = {
   tasks: Task[];
   onTaskClick: (task: Task) => void;
@@ -21,6 +22,8 @@ const formatDate = (date: Date) => {
 
 const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
   const navigate = useNavigate();
+
+  const todayString = formatDate(new Date());
 
   const days = useMemo(() => {
     const today = new Date();
@@ -76,7 +79,7 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
           <div
             key={`${item.day}-${item.date}`}
             onClick={() => onDayClick(item.dateString)}
-            className="rounded-lg border border-zinc-200 bg-zinc-50 p-2.5"
+            className="cursor-pointer rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 transition hover:border-zinc-300"
           >
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium uppercase text-zinc-500">
@@ -91,21 +94,33 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
             <div className="mt-2 space-y-1">
               {item.tasks.length > 0 ? (
                 <>
-                  {item.tasks.slice(0, 2).map((task) => (
-                    <button
-                      key={task.id}
-                      type="button"
-                      title={task.title}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onTaskClick(task);
-                      }}
-                      className="block w-full cursor-pointer truncate rounded-md bg-white px-2 py-1.5 text-left text-xs text-zinc-700 shadow-sm transition hover:bg-zinc-100"
-                    >
-                      {task.completed && "✓ "}
-                      {task.title}
-                    </button>
-                  ))}
+                  {item.tasks.slice(0, 2).map((task) => {
+                    const isOverdue =
+                      task.date < todayString && !task.completed;
+
+                    return (
+                      <button
+                        key={task.id}
+                        type="button"
+                        title={task.title}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onTaskClick(task);
+                        }}
+                        className={`block w-full cursor-pointer truncate rounded-md bg-white px-2 py-1.5 text-left text-xs shadow-sm transition hover:bg-zinc-100 ${
+                          isOverdue ? "text-red-600" : "text-zinc-700"
+                        }`}
+                      >
+                        {task.completed && "✓ "}
+
+                        {isOverdue && (
+                          <span className="mr-1 text-red-500">●</span>
+                        )}
+
+                        {task.title}
+                      </button>
+                    );
+                  })}
 
                   {item.tasks.length > 2 && (
                     <p className="px-1 text-xs text-zinc-500">

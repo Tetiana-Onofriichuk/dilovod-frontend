@@ -121,6 +121,14 @@ const HomePage = () => {
     return taskDate >= monday && taskDate <= sunday;
   }).length;
 
+  const todayString = `${today.getFullYear()}-${String(
+    today.getMonth() + 1,
+  ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  const overdueTasksCount = tasks.filter(
+    (task) => task.date < todayString && !task.completed,
+  ).length;
+
   return (
     <div>
       <div className="mb-5 flex items-start justify-between">
@@ -164,6 +172,11 @@ const HomePage = () => {
           linkText="Перейти до календаря"
           icon={CalendarDays}
           to="/calendar"
+          statusText={
+            overdueTasksCount > 0
+              ? `${overdueTasksCount} прострочено`
+              : undefined
+          }
         />
       </div>
 

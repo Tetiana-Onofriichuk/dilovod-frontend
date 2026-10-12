@@ -11,6 +11,7 @@ type TrainingWithoutWeaponReportModalProps = {
   soldier: Soldier;
   onClose: () => void;
 };
+
 type AdditionalSoldier = {
   soldier: Soldier;
   fullNameGenitive: string;

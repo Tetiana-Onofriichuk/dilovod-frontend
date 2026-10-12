@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Pencil, UserRound, Shield } from "lucide-react";
+import {
+  ArrowLeft,
+  Pencil,
+  UserRound,
+  Shield,
+  FileText,
+  Download,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { getSoldierById } from "../services/soldiersApi";
+import {
+  downloadDocument,
+  getSoldierDocuments,
+} from "../services/documentsApi";
+
 import type { Soldier } from "../types/soldier";
+import type { Document } from "../types/document";
+
 import EditSoldierModal from "../components/soldiers/EditSoldierModal";
 
 const SoldierDetailsPage = () => {
@@ -11,6 +25,7 @@ const SoldierDetailsPage = () => {
   const navigate = useNavigate();
 
   const [soldier, setSoldier] = useState<Soldier | null>(null);
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -27,8 +42,15 @@ const SoldierDetailsPage = () => {
         setIsLoading(true);
         setError("");
 
-        const data = await getSoldierById(Number(id));
-        setSoldier(data);
+        const soldierId = Number(id);
+
+        const [soldierData, documentsData] = await Promise.all([
+          getSoldierById(soldierId),
+          getSoldierDocuments(soldierId),
+        ]);
+
+        setSoldier(soldierData);
+        setDocuments(documentsData);
       } catch (error) {
         console.error("Помилка при завантаженні військовослужбовця:", error);
 
@@ -68,22 +90,24 @@ const SoldierDetailsPage = () => {
 
   return (
     <div>
+      {/* Назад */}
       <button
         type="button"
         onClick={() => navigate("/soldiers")}
-        className="mb-6 flex cursor-pointer items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
+        className="mb-4 flex cursor-pointer items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
       >
         <ArrowLeft size={18} />
         Назад до списку
       </button>
 
-      <div className="mb-8 flex items-start justify-between gap-6">
+      {/* Заголовок */}
+      <div className="mb-4 flex items-start justify-between gap-6">
         <div>
           <h1 className="text-3xl font-semibold text-zinc-900">
             {soldier.lastName} {soldier.firstName} {soldier.patronymic}
           </h1>
 
-          <p className="mt-2 text-zinc-500">{soldier.rank}</p>
+          <p className="mt-1 text-zinc-500">{soldier.rank}</p>
         </div>
 
         <button
@@ -96,9 +120,10 @@ const SoldierDetailsPage = () => {
         </button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <div className="mb-6 flex items-center gap-3">
+      {/* Особисті та службові дані */}
+      <div className="grid gap-5 lg:grid-cols-2">
+        <section className="rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
+          <div className="mb-4 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100">
               <UserRound size={20} className="text-zinc-700" />
             </div>
@@ -126,8 +151,8 @@ const SoldierDetailsPage = () => {
           </div>
         </section>
 
-        <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <div className="mb-6 flex items-center gap-3">
+        <section className="rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
+          <div className="mb-4 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100">
               <Shield size={20} className="text-zinc-700" />
             </div>
@@ -155,6 +180,85 @@ const SoldierDetailsPage = () => {
           </div>
         </section>
       </div>
+
+      {/* Документи */}
+      <section className="mt-5 rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100">
+            <FileText size={20} className="text-zinc-700" />
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold text-zinc-900">Документи</h2>
+
+            <p className="mt-0.5 text-sm text-zinc-500">
+              Документи, сформовані для військовослужбовця
+            </p>
+          </div>
+        </div>
+
+        {documents.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-zinc-200 px-4 py-6 text-center">
+            <FileText size={28} className="mx-auto mb-2 text-zinc-300" />
+
+            <p className="text-sm font-medium text-zinc-700">
+              Документів поки немає
+            </p>
+
+            <p className="mt-1 text-sm text-zinc-400">
+              Для цього військовослужбовця ще не сформовано жодного документа.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-lg border border-zinc-200">
+            {/* Шапка таблиці */}
+            <div className="grid grid-cols-[1fr_180px_60px] gap-4 bg-zinc-50 px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-zinc-500">
+              <span>Документ</span>
+              <span>Дата створення</span>
+              <span className="text-center">Дії</span>
+            </div>
+
+            {/* Список документів */}
+            <div
+              className={`divide-y divide-zinc-100 ${
+                documents.length > 3 ? "max-h-[142px] overflow-y-auto" : ""
+              }`}
+            >
+              {documents.map((document) => (
+                <div
+                  key={document.id}
+                  className="grid grid-cols-[1fr_180px_60px] items-center gap-4 px-4 py-3"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-zinc-900">
+                      {document.title}
+                    </p>
+                  </div>
+
+                  <span className="text-sm text-zinc-500">
+                    {new Date(document.createdAt).toLocaleDateString("uk-UA")}
+                  </span>
+
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        downloadDocument(document.id, document.fileName)
+                      }
+                      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900"
+                      title="Завантажити документ"
+                    >
+                      <Download size={17} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Редагування */}
       {isEditModalOpen && (
         <EditSoldierModal
           soldier={soldier}
@@ -176,7 +280,7 @@ type InfoRowProps = {
 
 const InfoRow = ({ label, value }: InfoRowProps) => {
   return (
-    <div className="grid grid-cols-[200px_1fr] gap-4 py-4 first:pt-0 last:pb-0">
+    <div className="grid grid-cols-[200px_1fr] gap-4 py-3 first:pt-0 last:pb-0">
       <span className="text-sm text-zinc-500">{label}</span>
 
       <span className="text-sm font-medium text-zinc-900">{value || "—"}</span>

@@ -2,41 +2,33 @@ import { useEffect, useState } from "react";
 import { Plus, Search } from "lucide-react";
 
 import { getSoldiers } from "../services/soldiersApi";
+
 import type { Soldier } from "../types/soldier";
+import type { DocumentTemplate } from "../config/documentTemplates";
+
 import SoldiersTable from "../components/soldiers/SoldiersTable";
 import AddSoldierModal from "../components/soldiers/AddSoldierModal";
 import EditSoldierModal from "../components/soldiers/EditSoldierModal";
 import DeleteSoldierModal from "../components/soldiers/DeleteSoldierModal";
+
 import CreateDocumentModal from "../components/documents/CreateDocumentModal";
-import VacationReportModal from "../components/documents/VacationReportModal";
-import FamilyLeaveReportModal from "../components/documents/FamilyLeaveReportModal";
-import BankDetailsReportModal from "../components/documents/BankDetailsReportModal";
-import TrainingWithWeaponReportModal from "../components/documents/TrainingWithWeaponReportModal";
-import TrainingWithoutWeaponReportModal from "../components/documents/TrainingWithoutWeaponReportModal";
+import DocumentGenerator from "../components/documents/DocumentGenerator";
 
 const SoldiersPage = () => {
   const [soldiers, setSoldiers] = useState<Soldier[]>([]);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const [editingSoldier, setEditingSoldier] = useState<Soldier | null>(null);
+
   const [deletingSoldier, setDeletingSoldier] = useState<Soldier | null>(null);
 
   const [documentSoldier, setDocumentSoldier] = useState<Soldier | null>(null);
 
-  const [vacationReportSoldier, setVacationReportSoldier] =
-    useState<Soldier | null>(null);
-
-  const [familyLeaveReportSoldier, setFamilyLeaveReportSoldier] =
-    useState<Soldier | null>(null);
-  const [bankDetailsReportSoldier, setBankDetailsReportSoldier] =
-    useState<Soldier | null>(null);
-  const [trainingWithWeaponReportSoldier, setTrainingWithWeaponReportSoldier] =
-    useState<Soldier | null>(null);
-  const [
-    trainingWithoutWeaponReportSoldier,
-    setTrainingWithoutWeaponReportSoldier,
-  ] = useState<Soldier | null>(null);
+  const [selectedTemplate, setSelectedTemplate] =
+    useState<DocumentTemplate | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,6 +42,7 @@ const SoldiersPage = () => {
     const fetchSoldiers = async () => {
       try {
         const data = await getSoldiers(debouncedSearch);
+
         setSoldiers(data.soldiers);
       } catch (error) {
         console.error("Помилка отримання військовослужбовців:", error);
@@ -58,6 +51,20 @@ const SoldiersPage = () => {
 
     fetchSoldiers();
   }, [debouncedSearch]);
+
+  const handleOpenCreateDocument = (soldier: Soldier) => {
+    setDocumentSoldier(soldier);
+    setSelectedTemplate(null);
+  };
+
+  const handleSelectTemplate = (template: DocumentTemplate) => {
+    setSelectedTemplate(template);
+  };
+
+  const handleCloseDocument = () => {
+    setDocumentSoldier(null);
+    setSelectedTemplate(null);
+  };
 
   return (
     <div>
@@ -103,7 +110,7 @@ const SoldiersPage = () => {
             soldiers={soldiers}
             onEdit={(soldier) => setEditingSoldier(soldier)}
             onDelete={(soldier) => setDeletingSoldier(soldier)}
-            onCreateDocument={(soldier) => setDocumentSoldier(soldier)}
+            onCreateDocument={handleOpenCreateDocument}
           />
         </div>
       </div>
@@ -144,64 +151,19 @@ const SoldiersPage = () => {
         />
       )}
 
-      {documentSoldier && (
+      {documentSoldier && !selectedTemplate && (
         <CreateDocumentModal
           soldier={documentSoldier}
-          onClose={() => setDocumentSoldier(null)}
-          onVacationReport={() => {
-            setVacationReportSoldier(documentSoldier);
-            setDocumentSoldier(null);
-          }}
-          onFamilyLeaveReport={() => {
-            setFamilyLeaveReportSoldier(documentSoldier);
-            setDocumentSoldier(null);
-          }}
-          onBankDetailsReport={() => {
-            setBankDetailsReportSoldier(documentSoldier);
-            setDocumentSoldier(null);
-          }}
-          onTrainingWithWeaponReport={() => {
-            setTrainingWithWeaponReportSoldier(documentSoldier);
-            setDocumentSoldier(null);
-          }}
-          onTrainingWithoutWeaponReport={() => {
-            setTrainingWithoutWeaponReportSoldier(documentSoldier);
-            setDocumentSoldier(null);
-          }}
+          onClose={handleCloseDocument}
+          onSelectTemplate={handleSelectTemplate}
         />
       )}
 
-      {vacationReportSoldier && (
-        <VacationReportModal
-          soldier={vacationReportSoldier}
-          onClose={() => setVacationReportSoldier(null)}
-        />
-      )}
-
-      {familyLeaveReportSoldier && (
-        <FamilyLeaveReportModal
-          soldier={familyLeaveReportSoldier}
-          onClose={() => setFamilyLeaveReportSoldier(null)}
-        />
-      )}
-      {bankDetailsReportSoldier && (
-        <BankDetailsReportModal
-          soldier={bankDetailsReportSoldier}
-          onClose={() => setBankDetailsReportSoldier(null)}
-        />
-      )}
-
-      {trainingWithWeaponReportSoldier && (
-        <TrainingWithWeaponReportModal
-          soldier={trainingWithWeaponReportSoldier}
-          onClose={() => setTrainingWithWeaponReportSoldier(null)}
-        />
-      )}
-
-      {trainingWithoutWeaponReportSoldier && (
-        <TrainingWithoutWeaponReportModal
-          soldier={trainingWithoutWeaponReportSoldier}
-          onClose={() => setTrainingWithoutWeaponReportSoldier(null)}
+      {documentSoldier && selectedTemplate && (
+        <DocumentGenerator
+          soldier={documentSoldier}
+          template={selectedTemplate}
+          onClose={handleCloseDocument}
         />
       )}
     </div>

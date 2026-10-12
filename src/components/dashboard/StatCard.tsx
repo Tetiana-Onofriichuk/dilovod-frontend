@@ -8,6 +8,7 @@ type StatCardProps = {
   linkText: string;
   icon: LucideIcon;
   to?: string;
+  statusText?: string;
 };
 
 const StatCard = ({
@@ -16,6 +17,7 @@ const StatCard = ({
   linkText,
   icon: Icon,
   to,
+  statusText,
 }: StatCardProps) => {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-5 py-4 shadow-sm">
@@ -27,7 +29,15 @@ const StatCard = ({
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-zinc-600">{title}</p>
 
-          <p className="mt-0.5 text-2xl font-semibold text-zinc-900">{value}</p>
+          <div className="mt-0.5 flex items-center gap-2">
+            <p className="text-2xl font-semibold text-zinc-900">{value}</p>
+
+            {statusText && (
+              <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-600">
+                {statusText}
+              </span>
+            )}
+          </div>
 
           {to && (
             <Link

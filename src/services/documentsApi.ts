@@ -124,6 +124,16 @@ export const getDocuments = async (): Promise<Document[]> => {
   return response.data;
 };
 
+export const getSoldierDocuments = async (
+  soldierId: number,
+): Promise<Document[]> => {
+  const response = await axios.get<Document[]>(
+    `${API_URL}/soldier/${soldierId}`,
+  );
+
+  return response.data;
+};
+
 export const downloadDocument = async (
   id: number,
   fileName: string,

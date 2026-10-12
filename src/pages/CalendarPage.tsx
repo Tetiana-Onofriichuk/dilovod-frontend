@@ -86,10 +86,26 @@ const CalendarPage = () => {
           eventContent={(eventInfo) => {
             const completed = eventInfo.event.extendedProps.completed;
 
+            const today = new Date();
+            const todayString = `${today.getFullYear()}-${String(
+              today.getMonth() + 1,
+            ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+            const taskDate = eventInfo.event.startStr;
+
+            const isOverdue = taskDate < todayString && !completed;
+
             return (
-              <div className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
-                {completed && <span>✓ </span>}
-                <span>{eventInfo.event.title}</span>
+              <div className="flex min-w-0 items-center gap-1 overflow-hidden">
+                {completed && <span className="shrink-0">✓</span>}
+
+                {isOverdue && (
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-red-400" />
+                )}
+
+                <span className={`truncate ${isOverdue ? "text-red-100" : ""}`}>
+                  {eventInfo.event.title}
+                </span>
               </div>
             );
           }}
