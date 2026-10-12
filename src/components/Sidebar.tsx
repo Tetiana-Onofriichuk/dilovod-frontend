@@ -12,7 +12,11 @@ const Sidebar = () => {
 
   return (
     <aside className="min-h-screen w-64 bg-zinc-800 px-4 py-6 text-white">
-      <div className="mb-10 flex items-center gap-4 px-2">
+      <NavLink
+        to="/"
+        className="mb-10 flex cursor-pointer items-center gap-4 px-2"
+        aria-label="Перейти на головну"
+      >
         <img src={logo} alt="OPORA" className="h-24 w-24 object-contain" />
 
         <div>
@@ -20,7 +24,7 @@ const Sidebar = () => {
 
           <p className="text-m text-zinc-400">система обліку</p>
         </div>
-      </div>
+      </NavLink>
 
       <nav>
         <ul className="space-y-2">
