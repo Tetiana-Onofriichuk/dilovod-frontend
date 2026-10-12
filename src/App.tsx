@@ -11,6 +11,7 @@ import SoldierDetailsPage from "./pages/SoldierDetailsPage";
 import DocumentsPage from "./pages/DocumentsPage";
 import CalendarPage from "./pages/CalendarPage";
 import TemplatesPage from "./pages/TemplatesPage";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   const location = useLocation();
@@ -78,6 +79,14 @@ function App() {
             element={
               <PageTransition>
                 <CalendarPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <PageTransition>
+                <SettingsPage />
               </PageTransition>
             }
           />

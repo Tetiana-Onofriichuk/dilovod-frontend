@@ -6,6 +6,7 @@ import {
   Home,
   Users,
   ShieldCheck,
+  Settings,
 } from "lucide-react";
 import logo from "../assets/logo.png";
 
@@ -74,6 +75,13 @@ const Sidebar = () => {
             <NavLink to="/calendar" className={linkStyles}>
               <CalendarDays size={20} />
               <span>Календар</span>
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/settings" className={linkStyles}>
+              <Settings size={20} />
+              <span>Налаштування</span>
             </NavLink>
           </li>
         </ul>
