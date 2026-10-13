@@ -36,6 +36,26 @@ const stopBackend = () => {
   }
 };
 
+const waitForBackend = async () => {
+  const maxAttempts = 50;
+  const delay = 200;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    try {
+      const response = await fetch("http://localhost:3000");
+
+      if (response.ok) {
+        return;
+      }
+    } catch {
+      // Backend ще запускається
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  throw new Error("Backend OPORA не запустився вчасно");
+};
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1440,
@@ -92,9 +112,23 @@ ipcMain.handle(
   },
 );
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   startBackend();
-  createWindow();
+
+  try {
+    await waitForBackend();
+    createWindow();
+  } catch (error) {
+    console.error("Не вдалося запустити backend OPORA:", error);
+
+    dialog.showErrorBox(
+      "Помилка запуску OPORA",
+      "Не вдалося запустити внутрішній сервер OPORA. Спробуйте перезапустити програму.",
+    );
+
+    app.quit();
+    return;
+  }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
