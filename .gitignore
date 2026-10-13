@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local Electron backend dependencies
+electron/backend/node_modules/
+
+# Local SQLite database
+dilovod.sqlite
