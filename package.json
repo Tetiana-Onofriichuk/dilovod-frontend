@@ -12,7 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "desktop:build": "npm run build && electron-builder"
+    "desktop:build": "node scripts/prepare-desktop-backend.cjs && npm run build && electron-builder"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.21",

@@ -31,3 +31,6 @@ dilovod.sqlite
 
 # Electron build output
 release/
+
+# Electron backend dependency state
+electron/backend/.dependencies-hash
