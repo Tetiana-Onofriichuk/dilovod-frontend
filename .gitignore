@@ -28,3 +28,6 @@ electron/backend/node_modules/
 
 # Local SQLite database
 dilovod.sqlite
+
+# Electron build output
+release/

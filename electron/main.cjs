@@ -5,13 +5,24 @@ const path = require("path");
 let backendProcess = null;
 
 const startBackend = () => {
-  const backendPath = path.join(__dirname, "backend", "dist", "main.js");
+  const backendPath = app.isPackaged
+    ? path.join(process.resourcesPath, "backend", "dist", "main.js")
+    : path.join(__dirname, "backend", "dist", "main.js");
 
   backendProcess = spawn(process.execPath, [backendPath], {
     env: {
       ...process.env,
       ELECTRON_RUN_AS_NODE: "1",
-      OPORA_DATA_PATH: path.resolve(__dirname, "../../dilovod"),
+
+      NODE_ENV: app.isPackaged ? "production" : "development",
+
+      OPORA_DATA_PATH: app.isPackaged
+        ? path.join(app.getPath("appData"), "OPORA")
+        : path.resolve(__dirname, "../../dilovod"),
+
+      OPORA_TEMPLATES_PATH: app.isPackaged
+        ? path.join(process.resourcesPath, "templates")
+        : path.resolve(__dirname, "../../dilovod/templates"),
     },
     stdio: "inherit",
   });
@@ -33,7 +44,7 @@ const createWindow = () => {
   });
 
   if (app.isPackaged) {
-    mainWindow.loadFile("dist/index.html");
+    mainWindow.loadFile(path.join(__dirname, "..", "dist", "index.html"));
   } else {
     mainWindow.loadURL("http://localhost:5173");
   }
