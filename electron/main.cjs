@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const { spawn } = require("child_process");
 const path = require("path");
+const fs = require("fs");
 
 let backendProcess = null;
 
@@ -41,6 +42,12 @@ const createWindow = () => {
     height: 900,
     minWidth: 1100,
     minHeight: 700,
+
+    webPreferences: {
+      preload: path.join(__dirname, "preload.cjs"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
   });
 
   if (app.isPackaged) {
@@ -49,6 +56,41 @@ const createWindow = () => {
     mainWindow.loadURL("http://localhost:5173");
   }
 };
+
+ipcMain.handle("backup:save-dialog", async (_event, defaultFileName) => {
+  const result = await dialog.showSaveDialog({
+    title: "Зберегти резервну копію OPORA",
+
+    defaultPath: path.join(
+      app.getPath("documents"),
+      defaultFileName || "OPORA_backup.zip",
+    ),
+
+    filters: [
+      {
+        name: "Резервна копія OPORA",
+        extensions: ["zip"],
+      },
+    ],
+
+    properties: ["createDirectory", "showOverwriteConfirmation"],
+  });
+
+  if (result.canceled) {
+    return null;
+  }
+
+  return result.filePath;
+});
+
+ipcMain.handle(
+  "backup:copy-file",
+  async (_event, sourcePath, destinationPath) => {
+    await fs.promises.copyFile(sourcePath, destinationPath);
+
+    return true;
+  },
+);
 
 app.whenReady().then(() => {
   startBackend();

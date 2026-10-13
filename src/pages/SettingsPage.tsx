@@ -16,10 +16,31 @@ const SettingsPage = () => {
       setIsCreatingBackup(true);
       setMessage("");
 
-      await createBackup();
+      const backup = await createBackup();
 
-      setMessage("Резервну копію успішно створено");
-    } catch {
+      const fileName = backup.path.split(/[\\/]/).pop();
+
+      if (!fileName) {
+        throw new Error("Не вдалося визначити назву резервної копії");
+      }
+
+      if (!window.electronAPI) {
+        throw new Error("Electron API недоступний");
+      }
+
+      const destinationPath =
+        await window.electronAPI.chooseBackupSavePath(fileName);
+
+      if (!destinationPath) {
+        setMessage("Збереження резервної копії скасовано");
+        return;
+      }
+
+      await window.electronAPI.copyBackupFile(backup.path, destinationPath);
+
+      setMessage("Резервну копію успішно збережено");
+    } catch (error) {
+      console.error(error);
       setMessage("Не вдалося створити резервну копію");
     } finally {
       setIsCreatingBackup(false);
