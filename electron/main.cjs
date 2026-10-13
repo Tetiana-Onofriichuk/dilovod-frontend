@@ -70,6 +70,8 @@ const createWindow = () => {
     },
   });
 
+  mainWindow.setMenuBarVisibility(false);
+
   if (app.isPackaged) {
     mainWindow.loadFile(path.join(__dirname, "..", "dist", "index.html"));
   } else {
