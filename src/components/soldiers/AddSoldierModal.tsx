@@ -23,6 +23,7 @@ const AddSoldierModal = ({
     position: "",
     positionGenitive: "",
     platoon: "",
+    platoonGenitive: "",
     squad: "",
     weapon: "",
     phone: "",
@@ -60,6 +61,7 @@ const AddSoldierModal = ({
         position: "",
         positionGenitive: "",
         platoon: "",
+        platoonGenitive: "",
         squad: "",
         weapon: "",
         phone: "",
@@ -224,6 +226,20 @@ const AddSoldierModal = ({
               name="platoon"
               value={formData.platoon}
               onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-zinc-700">
+              Взвод у родовому відмінку
+            </label>
+
+            <input
+              type="text"
+              name="platoonGenitive"
+              value={formData.platoonGenitive}
+              onChange={handleChange}
+              placeholder="Наприклад: інженерно-технічного взводу"
+              className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             />
           </div>
 

@@ -26,6 +26,7 @@ const EditSoldierModal = ({
     position: soldier.position,
     positionGenitive: soldier.positionGenitive ?? "",
     platoon: soldier.platoon,
+    platoonGenitive: soldier.platoonGenitive ?? "",
     squad: soldier.squad,
     weapon: soldier.weapon ?? "",
   });
@@ -243,6 +244,21 @@ const EditSoldierModal = ({
               onChange={handleChange}
               placeholder="Взвод"
               required
+              className={inputClassName}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="platoonGenitive" className={labelClassName}>
+              Взвод у родовому відмінку
+            </label>
+
+            <input
+              id="platoonGenitive"
+              type="text"
+              name="platoonGenitive"
+              value={formData.platoonGenitive}
+              onChange={handleChange}
               className={inputClassName}
             />
           </div>

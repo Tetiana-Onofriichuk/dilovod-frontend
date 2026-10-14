@@ -8,6 +8,7 @@ export interface Soldier {
   position: string;
   positionGenitive: string;
   platoon: string;
+  platoonGenitive: string;
   squad: string;
   weapon: string;
   phone: string;

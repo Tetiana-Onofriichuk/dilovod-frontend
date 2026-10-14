@@ -18,7 +18,9 @@ export type CreateSoldierData = {
   position: string;
   positionGenitive: string;
   platoon: string;
+  platoonGenitive: string;
   squad: string;
+  weapon: string;
   phone: string;
   address: string;
 };
