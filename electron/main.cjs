@@ -37,7 +37,7 @@ const stopBackend = () => {
 };
 
 const waitForBackend = async () => {
-  const maxAttempts = 50;
+  const maxAttempts = 150;
   const delay = 200;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
