@@ -89,7 +89,6 @@ const EditSoldierModal = ({
             value={formData.lastName}
             onChange={handleChange}
             placeholder="Наприклад: Петренко"
-            required
             autoFocus
             className={inputClassName}
           />
@@ -107,7 +106,6 @@ const EditSoldierModal = ({
             value={formData.lastNameGenitive}
             onChange={handleChange}
             placeholder="Наприклад: Петренка"
-            required
             className={inputClassName}
           />
         </div>
@@ -124,7 +122,6 @@ const EditSoldierModal = ({
             value={formData.firstName}
             onChange={handleChange}
             placeholder="Наприклад: Іван"
-            required
             className={inputClassName}
           />
         </div>
@@ -141,7 +138,6 @@ const EditSoldierModal = ({
             value={formData.patronymic}
             onChange={handleChange}
             placeholder="Наприклад: Іванович"
-            required
             className={inputClassName}
           />
         </div>
@@ -158,7 +154,6 @@ const EditSoldierModal = ({
             value={formData.phone}
             onChange={handleChange}
             placeholder="Наприклад: 0671234567"
-            required
             className={inputClassName}
           />
         </div>
@@ -175,7 +170,6 @@ const EditSoldierModal = ({
             value={formData.address}
             onChange={handleChange}
             placeholder="Область, район, населений пункт, вулиця, будинок"
-            required
             className={inputClassName}
           />
         </div>
@@ -192,7 +186,6 @@ const EditSoldierModal = ({
             value={formData.rank}
             onChange={handleChange}
             placeholder="Наприклад: солдат"
-            required
             className={inputClassName}
           />
         </div>
@@ -209,7 +202,6 @@ const EditSoldierModal = ({
             value={formData.position}
             onChange={handleChange}
             placeholder="Наприклад: водій-машиніст екскаватора"
-            required
             className={inputClassName}
           />
         </div>
@@ -225,7 +217,6 @@ const EditSoldierModal = ({
             value={formData.positionGenitive}
             onChange={handleChange}
             placeholder="Наприклад: водія-машиніста екскаватора"
-            required
             className={inputClassName}
           />
         </div>
@@ -243,7 +234,6 @@ const EditSoldierModal = ({
               value={formData.platoon}
               onChange={handleChange}
               placeholder="Взвод"
-              required
               className={inputClassName}
             />
           </div>
@@ -275,7 +265,6 @@ const EditSoldierModal = ({
               value={formData.squad}
               onChange={handleChange}
               placeholder="Відділення"
-              required
               className={inputClassName}
             />
           </div>

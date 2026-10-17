@@ -42,4 +42,11 @@ export const documentTemplates: DocumentTemplate[] = [
     description: "Направлення військовослужбовців на навчання без зброї",
     category: "training",
   },
+  {
+    id: "position-acceptance",
+    title: "Рапорт про прийняття справ та посади",
+    description:
+      "Рапорт про прийняття справ та посади і приступання до виконання службових обов’язків",
+    category: "other",
+  },
 ];

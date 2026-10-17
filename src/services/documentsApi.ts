@@ -60,6 +60,11 @@ export type TrainingWithoutWeaponReportData = {
   includeDryRation: boolean;
 };
 
+export type PositionAcceptanceReportData = {
+  soldierId: number;
+  reportDate: string;
+};
+
 export const generateVacationReport = async (
   data: VacationReportData,
 ): Promise<Blob> => {
@@ -109,6 +114,20 @@ export const generateTrainingWithoutWeaponReport = async (
 ): Promise<Blob> => {
   const response = await axios.post(
     `${API_URL}/training-without-weapon-report`,
+    data,
+    {
+      responseType: "blob",
+    },
+  );
+
+  return response.data;
+};
+
+export const generatePositionAcceptanceReport = async (
+  data: PositionAcceptanceReportData,
+): Promise<Blob> => {
+  const response = await axios.post(
+    `${API_URL}/position-acceptance-report`,
     data,
     {
       responseType: "blob",

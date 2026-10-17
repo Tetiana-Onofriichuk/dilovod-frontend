@@ -6,6 +6,7 @@ import FamilyLeaveReportModal from "./FamilyLeaveReportModal";
 import BankDetailsReportModal from "./BankDetailsReportModal";
 import TrainingWithWeaponReportModal from "./TrainingWithWeaponReportModal";
 import TrainingWithoutWeaponReportModal from "./TrainingWithoutWeaponReportModal";
+import PositionAcceptanceReportModal from "./PositionAcceptanceReportModal";
 
 type DocumentGeneratorProps = {
   template: DocumentTemplate;
@@ -36,6 +37,10 @@ const DocumentGenerator = ({
     case "training-without-weapon":
       return (
         <TrainingWithoutWeaponReportModal soldier={soldier} onClose={onClose} />
+      );
+    case "position-acceptance":
+      return (
+        <PositionAcceptanceReportModal soldier={soldier} onClose={onClose} />
       );
 
     default:
