@@ -27,6 +27,16 @@ const startBackend = () => {
     },
     stdio: "inherit",
   });
+
+  backendProcess.on("error", (error) => {
+    console.error("Помилка запуску процесу backend OPORA:", error);
+  });
+
+  backendProcess.on("exit", (code, signal) => {
+    console.log(
+      `Backend OPORA завершив роботу. Code: ${code}, signal: ${signal}`,
+    );
+  });
 };
 
 const stopBackend = () => {
@@ -37,7 +47,7 @@ const stopBackend = () => {
 };
 
 const waitForBackend = async () => {
-  const maxAttempts = 150;
+  const maxAttempts = 450;
   const delay = 200;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
@@ -56,6 +66,7 @@ const waitForBackend = async () => {
 
   throw new Error("Backend OPORA не запустився вчасно");
 };
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1440,
