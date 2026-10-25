@@ -20,11 +20,8 @@ const SoldiersPage = () => {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
   const [editingSoldier, setEditingSoldier] = useState<Soldier | null>(null);
-
   const [deletingSoldier, setDeletingSoldier] = useState<Soldier | null>(null);
-
   const [documentSoldier, setDocumentSoldier] = useState<Soldier | null>(null);
 
   const [selectedTemplate, setSelectedTemplate] =
@@ -42,7 +39,6 @@ const SoldiersPage = () => {
     const fetchSoldiers = async () => {
       try {
         const data = await getSoldiers(debouncedSearch);
-
         setSoldiers(data.soldiers);
       } catch (error) {
         console.error("Помилка отримання військовослужбовців:", error);
@@ -67,8 +63,8 @@ const SoldiersPage = () => {
   };
 
   return (
-    <div>
-      <div className="mb-8 flex items-center justify-between">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+      <div className="mb-6 flex shrink-0 items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-zinc-900">
             Військовослужбовці
@@ -89,8 +85,8 @@ const SoldiersPage = () => {
         </button>
       </div>
 
-      <div className="rounded-xl bg-white p-6 shadow-sm">
-        <div className="relative max-w-md">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl bg-white p-6 shadow-sm">
+        <div className="relative max-w-md shrink-0">
           <Search
             size={18}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -105,7 +101,7 @@ const SoldiersPage = () => {
           />
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 max-h-[calc(100vh-250px)] overflow-y-auto">
           <SoldiersTable
             soldiers={soldiers}
             onEdit={(soldier) => setEditingSoldier(soldier)}
@@ -145,7 +141,6 @@ const SoldiersPage = () => {
           onClose={() => setDeletingSoldier(null)}
           onSoldierDeleted={(id) => {
             setSoldiers((prev) => prev.filter((soldier) => soldier.id !== id));
-
             setDeletingSoldier(null);
           }}
         />

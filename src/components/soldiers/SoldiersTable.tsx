@@ -1,8 +1,10 @@
-import type { Soldier } from "../../types/soldier";
-import { FileText, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import TruncatedText from "../common/TruncatedText";
+import { FileText, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+
+import type { Soldier } from "../../types/soldier";
+
+import TruncatedText from "../common/TruncatedText";
 
 type SoldiersTableProps = {
   soldiers: Soldier[];
@@ -43,10 +45,11 @@ const SoldiersTable = ({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [openMenuId]);
+
   return (
-    <div className=" rounded-lg border border-zinc-200">
+    <div className="rounded-lg border border-zinc-200">
       <table className="w-full table-fixed text-left text-sm">
-        <thead className="bg-zinc-100 text-zinc-600">
+        <thead className="sticky top-0 z-10 bg-zinc-100 text-zinc-600">
           <tr>
             <th className="w-[22%] px-4 py-3 font-medium">ПІБ</th>
             <th className="w-[12%] px-4 py-3 font-medium">Телефон</th>
@@ -69,11 +72,13 @@ const SoldiersTable = ({
                   {soldier.lastName} {soldier.firstName} {soldier.patronymic}
                 </Link>
               </td>
+
               <td className="px-4 py-4 text-zinc-600">{soldier.phone}</td>
 
               <td className="px-4 py-4 text-zinc-600">{soldier.rank}</td>
 
               <td className="px-4 py-4 text-zinc-600">{soldier.position}</td>
+
               <td className="px-4 py-4 text-zinc-600">
                 <TruncatedText text={soldier.platoon} />
               </td>
@@ -112,6 +117,7 @@ const SoldiersTable = ({
                         <FileText size={17} />
                         Створити документ
                       </button>
+
                       <button
                         type="button"
                         onClick={() => {

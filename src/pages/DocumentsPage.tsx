@@ -33,14 +33,15 @@ const DocumentsPage = () => {
   );
 
   return (
-    <div>
-      <div className="mb-6">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+      <div className="mb-6 shrink-0">
         <h2 className="text-2xl font-semibold text-zinc-900">Документи</h2>
+
         <p className="mt-1 text-sm text-zinc-500">Архів створених документів</p>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
-        <div className="flex items-center justify-between gap-4 border-b border-zinc-200 px-5 py-4">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-zinc-200 px-5 py-4">
           <h3 className="font-semibold text-zinc-900">Всі документи</h3>
 
           <div className="relative w-full max-w-sm">
@@ -64,12 +65,13 @@ const DocumentsPage = () => {
             Завантаження...
           </div>
         ) : filteredDocuments.length === 0 ? (
-          <div className="flex flex-col items-center px-5 py-10 text-zinc-500">
+          <div className="flex flex-1 flex-col items-center justify-center px-5 py-10 text-zinc-500">
             <FileText size={32} />
+
             <p className="mt-2 text-sm">Документів поки немає</p>
           </div>
         ) : (
-          <div>
+          <div className="min-h-0">
             <div className="grid grid-cols-[minmax(280px,1.4fr)_minmax(280px,1.4fr)_160px_100px] items-center gap-6 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-sm font-medium text-zinc-500">
               <span>Документ</span>
               <span>Військовослужбовець</span>
@@ -77,7 +79,7 @@ const DocumentsPage = () => {
               <span className="text-center">Дії</span>
             </div>
 
-            <div className="divide-y divide-zinc-100">
+            <div className="max-h-[calc(100vh-260px)] overflow-y-auto divide-y divide-zinc-100">
               {filteredDocuments.map((document) => (
                 <div
                   key={document.id}
@@ -133,6 +135,7 @@ const DocumentsPage = () => {
           </div>
         )}
       </div>
+
       {deletingDocument && (
         <DeleteDocumentModal
           document={deletingDocument}

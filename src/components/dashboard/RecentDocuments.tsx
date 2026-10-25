@@ -19,8 +19,8 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
   const recentDocuments = documents.slice(0, 4);
 
   return (
-    <section className="mt-4 rounded-xl border border-zinc-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+    <section className="mt-3 rounded-xl border border-zinc-200 bg-white shadow-sm">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-2">
         <div>
           <h3 className="font-semibold text-zinc-900">Останні документи</h3>
 
@@ -72,7 +72,7 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                   key={document.id}
                   className="border-b border-zinc-100 last:border-b-0"
                 >
-                  <td className="px-5 py-3">
+                  <td className="px-5 py-2">
                     <div className="flex items-center gap-3">
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
                         <FileText size={16} />
@@ -84,11 +84,11 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                     </div>
                   </td>
 
-                  <td className="px-5 py-3 text-sm text-zinc-600">
+                  <td className="px-5 py-2 text-sm text-zinc-600">
                     {documentTypeLabels[document.type] ?? document.type}
                   </td>
 
-                  <td className="px-5 py-3 text-sm text-zinc-600">
+                  <td className="px-5 py-2 text-sm text-zinc-600">
                     {document.soldiers
                       .map(
                         (soldier) =>
@@ -97,7 +97,7 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                       .join(", ") || "Військовослужбовець не вказаний"}
                   </td>
 
-                  <td className="whitespace-nowrap px-5 py-3 text-sm text-zinc-500">
+                  <td className="whitespace-nowrap px-5 py-2 text-sm text-zinc-500">
                     {new Date(document.createdAt).toLocaleDateString("uk-UA")}
                   </td>
                 </tr>

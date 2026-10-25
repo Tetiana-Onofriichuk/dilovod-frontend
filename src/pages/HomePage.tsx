@@ -131,11 +131,13 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="mb-5 flex items-start justify-between">
+      <div className="mb-4 flex items-start justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-zinc-900">Головна</h2>
+          <h2 className="text-xl font-bold text-zinc-900">Головна</h2>
 
-          <p className="mt-2 text-zinc-500">Огляд основної інформації</p>
+          <p className="mt-1 text-sm text-zinc-500">
+            Огляд основної інформації
+          </p>
         </div>
 
         <Clock />

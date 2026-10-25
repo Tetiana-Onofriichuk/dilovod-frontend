@@ -56,23 +56,24 @@ const CalendarPage = () => {
 
   return (
     <div>
-      <div className="mb-6">
-        <div className="flex items-center gap-3">
+      <div className="mb-2">
+        <div className="flex items-center gap-2">
           <CalendarDays size={28} className="text-zinc-700" />
 
-          <h2 className="text-2xl font-semibold text-zinc-900">Календар</h2>
+          <h2 className="text-xl font-semibold text-zinc-900">Календар</h2>
         </div>
 
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-500">
           Планування та контроль завдань
         </p>
       </div>
 
-      <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <section className="rounded-xl border border-zinc-200 bg-white px-4 pt-4 pb-2 shadow-sm">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           locale={ukLocale}
+          fixedWeekCount={false}
           firstDay={1}
           height="auto"
           dayMaxEvents={2}

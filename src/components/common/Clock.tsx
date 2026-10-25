@@ -27,7 +27,7 @@ const Clock = () => {
 
   return (
     <div className="text-right">
-      <p className="text-2xl font-semibold leading-none tabular-nums text-zinc-900">
+      <p className="text-xl font-semibold leading-none tabular-nums text-zinc-900">
         {time}
       </p>
 

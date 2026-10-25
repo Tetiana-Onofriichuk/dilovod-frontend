@@ -90,37 +90,34 @@ const SoldierDetailsPage = () => {
 
   return (
     <div>
-      {/* Назад */}
       <button
         type="button"
         onClick={() => navigate("/soldiers")}
-        className="mb-4 flex cursor-pointer items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
+        className="mb-2 flex cursor-pointer items-center gap-1.5 text-xs font-medium text-zinc-600 transition hover:text-zinc-900"
       >
-        <ArrowLeft size={18} />
+        <ArrowLeft size={15} />
         Назад до списку
       </button>
 
-      {/* Заголовок */}
-      <div className="mb-4 flex items-start justify-between gap-6">
+      <div className="mb-3 flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-semibold text-zinc-900">
+          <h1 className="text-2xl font-semibold text-zinc-900">
             {soldier.lastName} {soldier.firstName} {soldier.patronymic}
           </h1>
 
-          <p className="mt-1 text-zinc-500">{soldier.rank}</p>
+          <p className="mt-0.5 text-sm text-zinc-500">{soldier.rank}</p>
         </div>
 
         <button
           type="button"
           onClick={() => setIsEditModalOpen(true)}
-          className="flex cursor-pointer items-center gap-2 rounded-lg bg-[#1c2530] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#273342]"
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-[#1c2530] px-3 py-2 text-sm font-medium text-white transition hover:bg-[#273342]"
         >
-          <Pencil size={17} />
+          <Pencil size={12} />
           Редагувати
         </button>
       </div>
 
-      {/* Особисті та службові дані */}
       <div className="grid gap-5 lg:grid-cols-2">
         <section className="rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
           <div className="mb-4 flex items-center gap-3">
@@ -181,17 +178,18 @@ const SoldierDetailsPage = () => {
         </section>
       </div>
 
-      {/* Документи */}
-      <section className="mt-5 rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100">
-            <FileText size={20} className="text-zinc-700" />
+      <section className="mt-5 rounded-xl border border-zinc-200 bg-white px-6 py-2 shadow-sm">
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100">
+            <FileText size={16} className="text-zinc-700" />
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-zinc-900">Документи</h2>
+            <h2 className="text-base font-semibold leading-tight text-zinc-900">
+              Документи
+            </h2>
 
-            <p className="mt-0.5 text-sm text-zinc-500">
+            <p className="mt-0.5 text-xs text-zinc-500">
               Документи, сформовані для військовослужбовця
             </p>
           </div>
@@ -211,31 +209,25 @@ const SoldierDetailsPage = () => {
           </div>
         ) : (
           <div className="overflow-hidden rounded-lg border border-zinc-200">
-            {/* Шапка таблиці */}
-            <div className="grid grid-cols-[1fr_180px_60px] gap-4 bg-zinc-50 px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-zinc-500">
+            <div className="grid grid-cols-[1fr_180px_60px] gap-4 bg-zinc-50 px-4 py-2 text-[11px] font-medium uppercase tracking-wide text-zinc-500">
               <span>Документ</span>
               <span>Дата створення</span>
               <span className="text-center">Дії</span>
             </div>
 
-            {/* Список документів */}
-            <div
-              className={`divide-y divide-zinc-100 ${
-                documents.length > 3 ? "max-h-[142px] overflow-y-auto" : ""
-              }`}
-            >
+            <div className="max-h-[150px] divide-y divide-zinc-100 overflow-y-auto">
               {documents.map((document) => (
                 <div
                   key={document.id}
-                  className="grid grid-cols-[1fr_180px_60px] items-center gap-4 px-4 py-3"
+                  className="grid grid-cols-[1fr_180px_60px] items-center gap-4 px-4 py-1"
                 >
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-zinc-900">
+                    <p className="truncate text-xs font-medium text-zinc-900">
                       {document.title}
                     </p>
                   </div>
 
-                  <span className="text-sm text-zinc-500">
+                  <span className="text-xs text-zinc-500">
                     {new Date(document.createdAt).toLocaleDateString("uk-UA")}
                   </span>
 
@@ -245,7 +237,7 @@ const SoldierDetailsPage = () => {
                       onClick={() =>
                         downloadDocument(document.id, document.fileName)
                       }
-                      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900"
+                      className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-900"
                       title="Завантажити документ"
                     >
                       <Download size={17} />
@@ -258,7 +250,6 @@ const SoldierDetailsPage = () => {
         )}
       </section>
 
-      {/* Редагування */}
       {isEditModalOpen && (
         <EditSoldierModal
           soldier={soldier}
@@ -280,10 +271,12 @@ type InfoRowProps = {
 
 const InfoRow = ({ label, value }: InfoRowProps) => {
   return (
-    <div className="grid grid-cols-[200px_1fr] gap-4 py-3 first:pt-0 last:pb-0">
-      <span className="text-sm text-zinc-500">{label}</span>
+    <div className="grid grid-cols-[190px_1fr] gap-3 py-2.5 first:pt-0 last:pb-0">
+      <span className="text-[13px] text-zinc-500">{label}</span>
 
-      <span className="text-sm font-medium text-zinc-900">{value || "—"}</span>
+      <span className="text-[13px] font-medium text-zinc-900">
+        {value || "—"}
+      </span>
     </div>
   );
 };

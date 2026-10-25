@@ -61,4 +61,30 @@
 .fc .fc-daygrid-event {
   overflow: hidden;
   cursor: pointer;
+  font-size: 12px;
+}
+
+.fc .fc-toolbar-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.fc .fc-button {
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.fc .fc-icon {
+  font-size: 12px;
+}
+
+.fc .fc-header-toolbar {
+  min-height: 0;
+  margin-bottom: 4px;
+}
+
+.fc .fc-toolbar-chunk {
+  line-height: 1;
 }
