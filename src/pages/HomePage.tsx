@@ -130,8 +130,8 @@ const HomePage = () => {
   ).length;
 
   return (
-    <div>
-      <div className="mb-4 flex items-start justify-between">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div className="mb-4 flex items-start justify-between [@media(min-height:820px)]:mb-6">
         <div>
           <h2 className="text-xl font-bold text-zinc-900">Головна</h2>
 
@@ -143,7 +143,7 @@ const HomePage = () => {
         <Clock />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4 [@media(min-height:820px)]:gap-5">
         <StatCard
           title="Військовослужбовці"
           value={soldiersCount}
@@ -184,16 +184,17 @@ const HomePage = () => {
 
       <RecentDocuments documents={documents} />
 
-      <WeeklyTasks
-        tasks={tasks}
-        onTaskClick={(task) => {
-          setSelectedTask(task);
-        }}
-        onDayClick={(date) => {
-          setTasksListDate(date);
-        }}
-      />
-
+      <div className="flex min-h-0 flex-1 flex-col">
+        <WeeklyTasks
+          tasks={tasks}
+          onTaskClick={(task) => {
+            setSelectedTask(task);
+          }}
+          onDayClick={(date) => {
+            setTasksListDate(date);
+          }}
+        />
+      </div>
       {tasksListDate && (
         <DayTasksModal
           isOpen={true}

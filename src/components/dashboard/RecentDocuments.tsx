@@ -19,8 +19,8 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
   const recentDocuments = documents.slice(0, 4);
 
   return (
-    <section className="mt-3 rounded-xl border border-zinc-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-2">
+    <section className="mt-3 rounded-xl border border-zinc-200 bg-white shadow-sm [@media(min-height:820px)]:mt-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-2 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
         <div>
           <h3 className="font-semibold text-zinc-900">Останні документи</h3>
 
@@ -38,7 +38,7 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
       </div>
 
       {recentDocuments.length === 0 ? (
-        <div className="flex flex-col items-center justify-center px-5 py-8 text-zinc-500">
+        <div className="flex flex-col items-center justify-center px-5 py-8 text-zinc-500 [@media(min-height:820px)]:py-10">
           <FileText size={28} />
 
           <p className="mt-2 text-sm">Документів поки немає</p>
@@ -48,19 +48,19 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-200 bg-zinc-50 text-left">
-                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-2.5">
                   Назва документа
                 </th>
 
-                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-2.5">
                   Тип рапорту
                 </th>
 
-                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-2.5">
                   Військовослужбовець
                 </th>
 
-                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                <th className="px-5 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-2.5">
                   Дата створення
                 </th>
               </tr>
@@ -72,9 +72,9 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                   key={document.id}
                   className="border-b border-zinc-100 last:border-b-0"
                 >
-                  <td className="px-5 py-2">
+                  <td className="px-5 py-2 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 [@media(min-height:820px)]:h-9 [@media(min-height:820px)]:w-9">
                         <FileText size={16} />
                       </div>
 
@@ -84,11 +84,11 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                     </div>
                   </td>
 
-                  <td className="px-5 py-2 text-sm text-zinc-600">
+                  <td className="px-5 py-2 text-sm text-zinc-600 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
                     {documentTypeLabels[document.type] ?? document.type}
                   </td>
 
-                  <td className="px-5 py-2 text-sm text-zinc-600">
+                  <td className="px-5 py-2 text-sm text-zinc-600 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
                     {document.soldiers
                       .map(
                         (soldier) =>
@@ -97,7 +97,7 @@ const RecentDocuments = ({ documents }: RecentDocumentsProps) => {
                       .join(", ") || "Військовослужбовець не вказаний"}
                   </td>
 
-                  <td className="whitespace-nowrap px-5 py-2 text-sm text-zinc-500">
+                  <td className="whitespace-nowrap px-5 py-2 text-sm text-zinc-500 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
                     {new Date(document.createdAt).toLocaleDateString("uk-UA")}
                   </td>
                 </tr>

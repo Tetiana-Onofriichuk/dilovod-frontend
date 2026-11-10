@@ -224,7 +224,7 @@ const AddSoldierModal = ({
               onChange={handleChange}
             />
           </div>
-          <div>
+          {/* <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700">
               Взвод у родовому відмінку
             </label>
@@ -237,7 +237,7 @@ const AddSoldierModal = ({
               placeholder="Наприклад: інженерно-технічного взводу"
               className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 outline-none transition focus:border-zinc-500"
             />
-          </div>
+          </div> */}
 
           <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700">

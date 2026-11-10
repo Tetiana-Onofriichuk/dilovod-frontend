@@ -238,7 +238,7 @@ const EditSoldierModal = ({
             />
           </div>
 
-          <div>
+          {/* <div>
             <label htmlFor="platoonGenitive" className={labelClassName}>
               Взвод у родовому відмінку
             </label>
@@ -251,7 +251,7 @@ const EditSoldierModal = ({
               onChange={handleChange}
               className={inputClassName}
             />
-          </div>
+          </div> */}
 
           <div>
             <label htmlFor="squad" className={labelClassName}>

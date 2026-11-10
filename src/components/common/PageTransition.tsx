@@ -8,6 +8,7 @@ type PageTransitionProps = {
 const PageTransition = ({ children }: PageTransitionProps) => {
   return (
     <motion.div
+      className="flex min-h-0 flex-1 flex-col"
       initial={{
         opacity: 0,
         rotateY: -6,

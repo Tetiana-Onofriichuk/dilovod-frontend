@@ -52,8 +52,8 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
   }, [tasks]);
 
   return (
-    <section className="mt-3 rounded-xl border border-zinc-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-2">
+    <section className="mt-3 flex min-h-0 flex-1 flex-col rounded-xl border border-zinc-200 bg-white shadow-sm [@media(min-height:820px)]:mt-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-2 [@media(min-height:820px)]:px-6 [@media(min-height:820px)]:py-3">
         <div>
           <h3 className="font-semibold text-zinc-900">
             Завдання на цей тиждень
@@ -74,12 +74,12 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-2 px-3 py-2">
+      <div className="grid min-h-0 flex-1 grid-cols-7 gap-2 overflow-y-auto px-3 py-2 [@media(min-height:820px)]:gap-3 [@media(min-height:820px)]:px-4 [@media(min-height:820px)]:py-3">
         {days.map((item) => (
           <div
             key={`${item.day}-${item.date}`}
             onClick={() => onDayClick(item.dateString)}
-            className="min-h-[86px] cursor-pointer rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1.5 transition hover:border-zinc-300"
+            className="min-h-[86px] cursor-pointer rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1.5 transition hover:border-zinc-300 [@media(min-height:820px)]:min-h-[112px] [@media(min-height:820px)]:px-3 [@media(min-height:820px)]:py-2.5"
           >
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium uppercase text-zinc-500">
@@ -91,7 +91,7 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
               </span>
             </div>
 
-            <div className="mt-1.5 space-y-1">
+            <div className="mt-1.5 space-y-1 [@media(min-height:820px)]:mt-2 [@media(min-height:820px)]:space-y-1.5">
               {item.tasks.length > 0 ? (
                 <>
                   {item.tasks.slice(0, 2).map((task) => {
@@ -107,7 +107,7 @@ const WeeklyTasks = ({ tasks, onTaskClick, onDayClick }: WeeklyTasksProps) => {
                           event.stopPropagation();
                           onTaskClick(task);
                         }}
-                        className={`block w-full cursor-pointer truncate rounded-md bg-white px-2 py-1 text-left text-xs shadow-sm transition hover:bg-zinc-100 ${
+                        className={`block w-full cursor-pointer truncate rounded-md bg-white px-2 py-1 text-left text-xs shadow-sm transition hover:bg-zinc-100 [@media(min-height:820px)]:py-1.5 ${
                           isOverdue ? "text-red-600" : "text-zinc-700"
                         }`}
                       >
